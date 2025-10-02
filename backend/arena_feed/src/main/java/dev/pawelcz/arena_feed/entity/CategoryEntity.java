@@ -6,28 +6,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table(name = "tournaments")
+@Table(name = "categories")
 @NoArgsConstructor
 @AllArgsConstructor
-public class TournamentEntity extends BaseEntity{
+public class CategoryEntity extends BaseEntity{
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String location;
+    private String weightClass;
     @Column(nullable = false)
-    private LocalDate date;
+    private String ageGroup;
     @Column(nullable = false)
-    private String state;
+    private String advancementLevel;
+    @Column(nullable = false)
+    private String sex;
     @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
-    private UserEntity owner;
-    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CategoryEntity> categories;
-
+    @JoinColumn(name = "tournament_id", nullable = false)
+    private TournamentEntity tournament;
 }
