@@ -23,9 +23,9 @@ public class UserEntity extends BaseEntity{
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
     @Column(nullable = false)
-    private String surname;
+    private String lastName;
     @Column(nullable = false)
     private LocalDateTime dateOfBirth;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
