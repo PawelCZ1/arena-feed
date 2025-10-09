@@ -1,6 +1,6 @@
 package dev.pawelcz.arena_feed.projection;
 
-public interface GetAllUsersProjection {
+public interface GetUserProjection {
     String getUsername();
     String getEmail();
     String getFirstName();

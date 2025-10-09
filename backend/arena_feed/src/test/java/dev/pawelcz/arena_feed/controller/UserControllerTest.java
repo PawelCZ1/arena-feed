@@ -2,7 +2,8 @@ package dev.pawelcz.arena_feed.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.pawelcz.arena_feed.dto.CreateUserDto;
-import dev.pawelcz.arena_feed.projection.GetAllUsersProjection;
+import dev.pawelcz.arena_feed.dto.GetUserDto;
+import dev.pawelcz.arena_feed.projection.GetUserProjection;
 import dev.pawelcz.arena_feed.security.TestSecurityConfig;
 import dev.pawelcz.arena_feed.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -36,76 +37,19 @@ public class UserControllerTest {
 
     @Test
     void shouldReturnAllUsers() throws Exception {
-        GetAllUsersProjection GET_ALL_USERS_PROJECTION_1 = new GetAllUsersProjection() {
-            @Override
-            public String getUsername() {
-                return "user1";
-            }
+        GetUserDto USERS_1 = new GetUserDto("user1",
+                "user1@example.com", "John", "Doe");
 
-            @Override
-            public String getEmail() {
-                return "user1@example.com";
-            }
+        GetUserDto USERS_2 = new GetUserDto("user2",
+                "user2@example.com", "Jane", "Smith");
 
-            @Override
-            public String getFirstName() {
-                return "John";
-            }
+        GetUserDto USERS_3 = new GetUserDto("user3",
+                "user3@example.com", "Adam", "Jackson");
 
-            @Override
-            public String getLastName() {
-                return "Doe";
-            }
-        };
-
-        GetAllUsersProjection GET_ALL_USERS_PROJECTION_2 = new GetAllUsersProjection() {
-            @Override
-            public String getUsername() {
-                return "user2";
-            }
-
-            @Override
-            public String getEmail() {
-                return "user2@example.com";
-            }
-
-            @Override
-            public String getFirstName() {
-                return "Jane";
-            }
-
-            @Override
-            public String getLastName() {
-                return "Smith";
-            }
-        };
-
-        GetAllUsersProjection GET_ALL_USERS_PROJECTION_3 = new GetAllUsersProjection() {
-            @Override
-            public String getUsername() {
-                return "user3";
-            }
-
-            @Override
-            public String getEmail() {
-                return "user3@example.com";
-            }
-
-            @Override
-            public String getFirstName() {
-                return "Adam";
-            }
-
-            @Override
-            public String getLastName() {
-                return "Jackson";
-            }
-        };
-
-        List<GetAllUsersProjection> users = List.of(
-                GET_ALL_USERS_PROJECTION_1,
-                GET_ALL_USERS_PROJECTION_2,
-                GET_ALL_USERS_PROJECTION_3
+        List<GetUserDto> users = List.of(
+                USERS_1,
+                USERS_2,
+                USERS_3
         );
 
         Mockito.when(userService.getAllUsers()).thenReturn(users);
@@ -137,7 +81,9 @@ public class UserControllerTest {
         CreateUserDto dto = new CreateUserDto(
                 "newuser", "asdf12345", "user@email.com", "First", "Last", LocalDateTime.of(2000, 1, 1, 0, 0)
         );
-        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(dto);
+        GetUserDto newUser = new GetUserDto("newuser", "user@email.com", "First", "Last");
+
+        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(newUser);
 
         mockMvc.perform(
                 post("/api/v1/users")
@@ -153,8 +99,9 @@ public class UserControllerTest {
         CreateUserDto dto = new CreateUserDto(
                 "newuser", "asdf12345", "usersdewea", "First", "Last", LocalDateTime.of(2000, 1, 1, 0, 0)
         );
+        GetUserDto newUser = new GetUserDto("newuser", "usersdewea", "First", "Last");
 
-        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(dto);
+        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(newUser);
         mockMvc.perform(
                 post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -167,8 +114,9 @@ public class UserControllerTest {
         CreateUserDto dto = new CreateUserDto(
                 "newuser", "as5", "user@gmail.com", "First", "Last", LocalDateTime.of(2000, 1, 1, 0, 0)
         );
+        GetUserDto newUser = new GetUserDto("newuser", "user@email.com", "First", "Last");
 
-        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(dto);
+        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(newUser);
         mockMvc.perform(
                 post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -181,8 +129,9 @@ public class UserControllerTest {
         CreateUserDto dto = new CreateUserDto(
                 "", "as5asdadadada", "user@gmail.com", "First", "Last", LocalDateTime.of(2000, 1, 1, 0, 0)
         );
+        GetUserDto newUser = new GetUserDto("", "user@email.com", "First", "Last");
 
-        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(dto);
+        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(newUser);
         mockMvc.perform(
                 post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -195,8 +144,9 @@ public class UserControllerTest {
         CreateUserDto dto = new CreateUserDto(
                 "tesetttt", "as5asdadadada", "user@gmail.com", "", "Last", LocalDateTime.of(2000, 1, 1, 0, 0)
         );
+        GetUserDto newUser = new GetUserDto("newuser", "user@email.com", "", "Last");
 
-        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(dto);
+        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(newUser);
         mockMvc.perform(
                 post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -209,8 +159,10 @@ public class UserControllerTest {
         CreateUserDto dto = new CreateUserDto(
                 "weqeqewsdseqe", "as5asdadadada", "user@gmail.com", "First", "", LocalDateTime.of(2000, 1, 1, 0, 0)
         );
+        GetUserDto newUser = new GetUserDto("newuser", "user@email.com", "First", "");
 
-        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(dto);
+
+        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(newUser);
         mockMvc.perform(
                 post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -223,8 +175,9 @@ public class UserControllerTest {
         CreateUserDto dto = new CreateUserDto(
                 "weqeqewsdseqe", "as5asdadadada", "user@gmail.com", "First", "Last", null
         );
+        GetUserDto newUser = new GetUserDto("weqeqewsdseqe", "user@email.com", "First", "Last");
 
-        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(dto);
+        Mockito.when(userService.createUser(Mockito.any(CreateUserDto.class))).thenReturn(newUser);
         mockMvc.perform(
                 post("/api/v1/users")
                         .contentType(MediaType.APPLICATION_JSON)
