@@ -3,7 +3,6 @@ package dev.pawelcz.arena_feed.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.pawelcz.arena_feed.dto.CreateUserDto;
 import dev.pawelcz.arena_feed.dto.GetUserDto;
-import dev.pawelcz.arena_feed.projection.GetUserProjection;
 import dev.pawelcz.arena_feed.security.TestSecurityConfig;
 import dev.pawelcz.arena_feed.service.UserService;
 import org.junit.jupiter.api.Test;
