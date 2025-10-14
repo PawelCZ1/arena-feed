@@ -17,21 +17,14 @@ const MainContent = () => {
 
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center"
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
     },
     question: {
         fontWeight: 'bold',
         textAlign: 'center',
         fontStyle: "italic",
-    },
-    button: {
-        backgroundColor: "gray",
-        borderStyle: "dashed",
-        borderWidth: 1,
-        borderRadius: 5,
-        shadowRadius: 5
     }
 });
 
