@@ -1,13 +1,17 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import ThemedView from "@/components/themed-view";
 import {ThemedText} from "@/components/themed-text";
+import {useRouter} from "expo-router";
 
-interface Props {
-    onLogin?: () => void;
-    onRegister?: () => void;
-}
+const TopAppBar = () => {
+    const router = useRouter();
+    const onLogin = () => {
+        //router.push('/login');
+    };
+    const onRegister = () => {
+        router.push('/register');
+    };
 
-const TopAppBar = ({onLogin, onRegister}: Props) => {
     return (
         <ThemedView style={styles.container}>
             <View style={styles.buttonContainer}>

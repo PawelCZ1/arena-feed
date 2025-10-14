@@ -14,10 +14,16 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-          name="main"
-          options={{
-            animation: 'fade'
-          }}
+        name="main"
+        options={{
+          animation: 'fade'
+        }}
+      />
+      <Stack.Screen
+        name="register"
+        options={{
+          animation: 'fade'
+        }}
       />
     </Stack>
   </ThemeProvider>;
