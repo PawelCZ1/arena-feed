@@ -4,6 +4,7 @@ import ThemedTextInput from "@/components/themed-text-input";
 import {ThemedText} from "@/components/themed-text";
 import {VerticalSpacer} from "@/components/vertical-spacer";
 import ThemedButton from "@/components/themed-button";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const RegisterForm = () => {
     const [username, setUsername] = useState();
@@ -12,6 +13,16 @@ const RegisterForm = () => {
     const [passwordConfirm, setPasswordConfirm] = useState();
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
+    const [birthDate, setBirthDate] = useState(new Date());
+    const [showPicker, setShowPicker] = useState(false);
+
+    const onDatePickerButtonPress = () => {
+        if (showPicker) {
+            setShowPicker(false);
+        } else {
+            setShowPicker(true);
+        }
+    };
 
     const onRegister = () => {
 
@@ -77,6 +88,26 @@ const RegisterForm = () => {
                     placeholder="Type your last name"
                 />
             </View>
+
+            <View style={styles.datePickerContainer}>
+                <ThemedText style={[styles.text, {textAlign: "center"}]}>Date of birth</ThemedText>
+                <View style={styles.datePickerButton}>
+                    <ThemedText style={{textAlign:"center"}}>{birthDate.toLocaleDateString('pl-PL')}</ThemedText>
+                    <ThemedButton title={showPicker ? "Hide picker" : "Show picker"} onPress={onDatePickerButtonPress} />
+                </View>
+                {showPicker && (
+                    <RNDateTimePicker
+                        value={birthDate}
+                        mode="date"
+                        display="inline"
+                        onChange={(event, selectedDate) => {
+                            if (selectedDate) {
+                                setBirthDate(selectedDate);
+                            }
+                        }}
+                    />
+                )}
+            </View>
             <VerticalSpacer size={16} />
             <ThemedButton title={"Register"} style={styles.button}  onPress={onRegister} />
         </View>
@@ -97,6 +128,17 @@ const styles = StyleSheet.create({
     },
     button: {
         width: 150,
+    },
+    datePickerContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8
+    },
+    datePickerButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8
     }
 });
 
