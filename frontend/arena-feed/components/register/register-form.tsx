@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {StyleSheet, View} from "react-native";
-import ThemedView from "@/components/themed-view";
 import ThemedTextInput from "@/components/themed-text-input";
 import {ThemedText} from "@/components/themed-text";
 import {VerticalSpacer} from "@/components/vertical-spacer";
@@ -19,9 +18,9 @@ const RegisterForm = () => {
     };
 
     return (
-        <ThemedView style={styles.container}>
+        <View style={styles.container}>
             <View>
-                <ThemedText>Username</ThemedText>
+                <ThemedText style={styles.text}>Username</ThemedText>
                 <ThemedTextInput
                     style={styles.input}
                     value={username}
@@ -31,7 +30,7 @@ const RegisterForm = () => {
             </View>
 
             <View>
-                <ThemedText>Email</ThemedText>
+                <ThemedText style={styles.text}>Email</ThemedText>
                 <ThemedTextInput
                     style={styles.input}
                     value={email}
@@ -41,7 +40,7 @@ const RegisterForm = () => {
             </View>
 
             <View>
-                <ThemedText>Password</ThemedText>
+                <ThemedText style={styles.text}>Password</ThemedText>
                 <ThemedTextInput
                     style={styles.input}
                     value={password}
@@ -60,7 +59,7 @@ const RegisterForm = () => {
             </View>
 
             <View>
-                <ThemedText>First name</ThemedText>
+                <ThemedText style={styles.text}>First name</ThemedText>
                 <ThemedTextInput
                     style={styles.input}
                     value={firstName}
@@ -70,7 +69,7 @@ const RegisterForm = () => {
             </View>
 
             <View>
-                <ThemedText>Last name</ThemedText>
+                <ThemedText style={styles.text}>Last name</ThemedText>
                 <ThemedTextInput
                     style={styles.input}
                     value={lastName}
@@ -79,20 +78,25 @@ const RegisterForm = () => {
                 />
             </View>
             <VerticalSpacer size={16} />
-            <ThemedButton title={"Register"}  onPress={onRegister} />
-        </ThemedView>
+            <ThemedButton title={"Register"} style={styles.button}  onPress={onRegister} />
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'stretch',
         justifyContent: 'center',
-        width: '75%',
+        alignItems: 'center',
         gap: 16
     },
+    text: {
+        fontWeight: 'bold',
+    },
     input: {
-
+        width: 300,
+    },
+    button: {
+        width: 150,
     }
 });
 

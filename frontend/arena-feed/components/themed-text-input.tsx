@@ -26,9 +26,10 @@ const ThemedTextInput = (
     }: Props) => {
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'surface');
     const textColor = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+    const borderColor = useThemeColor({ light: lightColor, dark: darkColor }, 'border');
     return (
         <TextInput
-            style={[styles.input, { backgroundColor: backgroundColor, color: textColor }, style]}
+            style={[styles.input, { backgroundColor: backgroundColor, color: textColor, borderColor: borderColor }, style]}
             placeholder={placeholder}
             value={value}
             onChangeText={onChangeText}
@@ -42,6 +43,7 @@ const ThemedTextInput = (
 const styles = StyleSheet.create({
     input: {
         padding: 8,
+        borderWidth: .25,
     },
 });
 

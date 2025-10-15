@@ -7,13 +7,14 @@ interface Props {
     onPress?: () => void;
     lightColor?: string;
     darkColor?: string;
+    style?: object;
 }
 
-const ThemedButton = ({title, onPress, lightColor, darkColor}: Props) => {
+const ThemedButton = ({title, onPress, lightColor, darkColor, style}: Props) => {
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'surface');
     return (
         <TouchableOpacity onPress={onPress}>
-            <View style={{ backgroundColor, padding: 10, borderRadius: 5, alignItems: 'center' }}>
+            <View style={[{ backgroundColor, padding: 10, borderRadius: 5, alignItems: 'center' }, style]}>
                 <ThemedText>{title}</ThemedText>
             </View>
         </TouchableOpacity>
