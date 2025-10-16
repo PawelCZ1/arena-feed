@@ -89,12 +89,14 @@ const RegisterForm = () => {
                 />
             </View>
 
+            {/*do poprawki dla androida*/}
             <View style={styles.datePickerContainer}>
                 <ThemedText style={[styles.text, {textAlign: "center"}]}>Date of birth</ThemedText>
                 <View style={styles.datePickerButton}>
                     <ThemedText style={{textAlign:"center"}}>{birthDate.toLocaleDateString('pl-PL')}</ThemedText>
                     <ThemedButton title={showPicker ? "Hide picker" : "Show picker"} onPress={onDatePickerButtonPress} />
                 </View>
+
                 {showPicker && (
                     <RNDateTimePicker
                         value={birthDate}
