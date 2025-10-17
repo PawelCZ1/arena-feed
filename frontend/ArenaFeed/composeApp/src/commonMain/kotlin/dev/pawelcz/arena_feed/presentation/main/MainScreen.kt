@@ -1,17 +1,18 @@
 package dev.pawelcz.arena_feed.presentation.main
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
-import dev.pawelcz.arena_feed.presentation.main.components.MainHeader
+import dev.pawelcz.arena_feed.presentation.main.components.MainAppBar
+import dev.pawelcz.arena_feed.presentation.main.components.MainContent
 
 object MainScreen : Screen {
     @Composable
@@ -22,7 +23,13 @@ object MainScreen : Screen {
                 .windowInsetsPadding(WindowInsets.safeDrawing),
             contentAlignment = Alignment.TopStart
         ) {
-            MainHeader()
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                MainAppBar()
+                MainContent()
+            }
         }
     }
 }
