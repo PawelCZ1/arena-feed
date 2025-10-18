@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -31,17 +32,19 @@ fun MainAppBar(
     ) {
         TextButton(
             onClick = onLoginClick,
-            colors = ButtonDefaults.textButtonColors(
-                contentColor = Color.Black
-            )
+//            colors = ButtonDefaults.textButtonColors(
+//                contentColor = Color.Black
+//            ),
+            shape = RectangleShape
         ) {
             Text(text = "Login")
         }
         TextButton(
             onClick = onRegisterClick,
-            colors = ButtonDefaults.textButtonColors(
-                contentColor = Color.Black
-            )
+//            colors = ButtonDefaults.textButtonColors(
+//                contentColor = Color.Black
+//            ),
+            shape = RectangleShape
         ) {
             Text(text = "Register")
         }
