@@ -34,15 +34,15 @@ fun MainContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier)
+//        Spacer(modifier = Modifier.weight(1f))
         Text(
             "Welcome to Arena Feed!",
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.headlineMedium,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier)
+        Spacer(modifier = Modifier.weight(1f))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -73,6 +73,6 @@ fun MainContent(
                 )
             }
         }
-        Spacer(modifier = Modifier)
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
