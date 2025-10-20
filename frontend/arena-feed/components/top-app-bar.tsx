@@ -28,9 +28,7 @@ const TopAppBar = () => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
         alignItems: 'flex-end',
-        height: 48,
         width: '100%',
         paddingHorizontal: 16
     },
