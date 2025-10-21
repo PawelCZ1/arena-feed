@@ -1,9 +1,9 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import ThemedView from "@/components/themed-view";
-import {ThemedText} from "@/components/themed-text";
 import {useRouter} from "expo-router";
+import ThemedTextButton from "@/components/themed-text-button";
 
-const TopAppBar = () => {
+const MainTopAppBar = () => {
     const router = useRouter();
     const onLogin = () => {
         //router.push('/login');
@@ -15,12 +15,8 @@ const TopAppBar = () => {
     return (
         <ThemedView style={styles.container}>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={onLogin}>
-                    <ThemedText>Log In</ThemedText>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={onRegister}>
-                    <ThemedText>Register</ThemedText>
-                </TouchableOpacity>
+                <ThemedTextButton onPress={onLogin} title={"Login"}/>
+                <ThemedTextButton onPress={onRegister} title={"Register"}/>
             </View>
         </ThemedView>
     );
@@ -30,7 +26,8 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'flex-end',
         width: '100%',
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        paddingTop: 8
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -38,4 +35,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TopAppBar;
+export default MainTopAppBar;

@@ -4,6 +4,7 @@ import {ThemedText} from "@/components/themed-text";
 import {KeyboardAvoidingView, Platform, StyleSheet, ScrollView} from "react-native";
 import RegisterForm from "@/components/register/register-form";
 import RegisterFooter from "@/components/register/register-footer";
+import RegisterTopAppBar from "@/components/register/register-top-app-bar";
 
 const Register = () => {
     return (
@@ -12,6 +13,7 @@ const Register = () => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
                 <ThemedSafeAreaView>
+                    <RegisterTopAppBar/>
                     <ScrollView
                         style={{ flex: 1 }}
                         keyboardShouldPersistTaps='handled'
