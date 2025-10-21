@@ -5,14 +5,16 @@ import {ThemedText} from "@/components/themed-text";
 import {VerticalSpacer} from "@/components/vertical-spacer";
 import ThemedButton from "@/components/themed-button";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import FormRow from "@/components/form-row";
+import FormPasswordColumn from "@/components/form-password-column";
 
 const RegisterForm = () => {
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [email, setEmail] = useState();
-    const [passwordConfirm, setPasswordConfirm] = useState();
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [birthDate, setBirthDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
 
@@ -30,64 +32,11 @@ const RegisterForm = () => {
 
     return (
         <View style={styles.container}>
-            <View>
-                <ThemedText style={styles.text}>Username</ThemedText>
-                <ThemedTextInput
-                    style={styles.input}
-                    value={username}
-                    onChangeText={setUsername}
-                    placeholder="Type your username"
-                />
-            </View>
-
-            <View>
-                <ThemedText style={styles.text}>Email</ThemedText>
-                <ThemedTextInput
-                    style={styles.input}
-                    value={email}
-                    onChangeText={setEmail}
-                    placeholder="Type your email"
-                />
-            </View>
-
-            <View>
-                <ThemedText style={styles.text}>Password</ThemedText>
-                <ThemedTextInput
-                    style={styles.input}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={true}
-                    placeholder="Type your password"
-                />
-                <VerticalSpacer size={8} />
-                <ThemedTextInput
-                    style={styles.input}
-                    value={passwordConfirm}
-                    secureTextEntry={true}
-                    onChangeText={setPasswordConfirm}
-                    placeholder="Retype your password"
-                />
-            </View>
-
-            <View>
-                <ThemedText style={styles.text}>First name</ThemedText>
-                <ThemedTextInput
-                    style={styles.input}
-                    value={firstName}
-                    onChangeText={setFirstName}
-                    placeholder="Type your first name"
-                />
-            </View>
-
-            <View>
-                <ThemedText style={styles.text}>Last name</ThemedText>
-                <ThemedTextInput
-                    style={styles.input}
-                    value={lastName}
-                    onChangeText={setLastName}
-                    placeholder="Type your last name"
-                />
-            </View>
+            <FormRow inputName={"Username"} inputValue={username} onChangeText={setUsername} placeholder={"Type your username"}/>
+            <FormRow inputName={"Email"} inputValue={email} onChangeText={setEmail} placeholder={"Type your email"}/>
+            <FormPasswordColumn password={password} onChangePassword={setPassword} passwordConfirm={passwordConfirm} onChangePasswordConfirm={setPasswordConfirm}/>
+            <FormRow inputName={"First name"} inputValue={firstName} onChangeText={setFirstName} placeholder={"Type your first name"}/>
+            <FormRow inputName={"Last name"} inputValue={lastName} onChangeText={setLastName} placeholder={"Type your last name"}/>
 
             {/*do poprawki dla androida*/}
             <View style={styles.datePickerContainer}>
