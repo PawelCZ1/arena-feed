@@ -1,0 +1,49 @@
+import React from 'react';
+import {StyleSheet, View} from "react-native";
+import {ThemedText} from "@/components/themed-text";
+import ThemedButton from "@/components/themed-button";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+
+interface Props {
+    birthDate: Date;
+    showPicker: boolean;
+    onDatePickerButtonPress: () => void;
+    onIOSChange: (_event: any, selectedDate?: Date) => void;
+}
+
+const IOSDatePicker = ({birthDate, showPicker, onDatePickerButtonPress, onIOSChange}: Props) => {
+    return (
+        <>
+            <View style={styles.datePickerButton}>
+                <ThemedText style={{textAlign: "center"}}>
+                    {birthDate.toLocaleDateString("pl-PL")}
+                </ThemedText>
+                <ThemedButton
+                    title={showPicker ? "Hide picker" : "Show picker"}
+                    onPress={onDatePickerButtonPress}
+                />
+            </View>
+
+            {showPicker && (
+                <RNDateTimePicker
+                    value={birthDate}
+                    mode="date"
+                    display="inline"
+                    onChange={onIOSChange}
+                />
+            )}
+        </>
+    );
+};
+
+
+const styles = StyleSheet.create({
+    datePickerButton: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+    },
+});
+
+export default IOSDatePicker;
