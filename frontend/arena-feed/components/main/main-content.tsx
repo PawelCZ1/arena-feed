@@ -1,10 +1,17 @@
-import {Button, StyleSheet, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import ThemedButton from "@/components/themed-button";
+import {useRouter} from "expo-router";
 
 const MainContent = () => {
+    const router = useRouter();
+
+    const navigateToTournaments = () => {
+        router.push("/tournaments");
+    }
+
     return (
         <View style={styles.container}>
-            <ThemedButton style={styles.button} title={"Search upcoming tournaments"}/>
+            <ThemedButton style={styles.button} title={"Search upcoming tournaments"} onPress={navigateToTournaments}/>
             <ThemedButton style={styles.button} title={"Create new tournament"}/>
         </View>
     );

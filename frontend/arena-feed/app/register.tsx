@@ -1,10 +1,10 @@
-import ThemedSafeAreaView from "@/components/themed-safe-area-view";
-import ThemedView from "@/components/themed-view";
 import {ThemedText} from "@/components/themed-text";
-import {KeyboardAvoidingView, Platform, StyleSheet, ScrollView} from "react-native";
+import {KeyboardAvoidingView, Platform, StyleSheet, View} from "react-native";
 import RegisterForm from "@/components/register/register-form";
 import RegisterFooter from "@/components/register/register-footer";
 import RegisterTopAppBar from "@/components/register/register-top-app-bar";
+import ThemedScrollView from "@/components/themed-scroll-view";
+import {VerticalSpacer} from "@/components/vertical-spacer";
 
 const Register = () => {
     return (
@@ -12,20 +12,17 @@ const Register = () => {
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-                <ThemedSafeAreaView>
-                    <RegisterTopAppBar/>
-                    <ScrollView
-                        style={{ flex: 1 }}
-                        keyboardShouldPersistTaps='handled'
-                        contentContainerStyle={{ flexGrow: 1 }}
-                    >
-                        <ThemedView style={styles.container}>
-                            <ThemedText type={"title"}>Register your account</ThemedText>
-                            <RegisterForm/>
-                            <RegisterFooter/>
-                        </ThemedView>
-                    </ScrollView>
-                </ThemedSafeAreaView>
+            <ThemedScrollView
+                keyboardShouldPersistTaps="handled"
+            >
+                <RegisterTopAppBar/>
+                <View style={styles.container}>
+                    <ThemedText type={"title"}>Register your account</ThemedText>
+                    <VerticalSpacer size={32}/>
+                    <RegisterForm/>
+                    <RegisterFooter/>
+                </View>
+            </ThemedScrollView>
         </KeyboardAvoidingView>
     );
 };
