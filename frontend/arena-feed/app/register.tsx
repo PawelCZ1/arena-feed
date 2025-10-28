@@ -3,8 +3,10 @@ import {KeyboardAvoidingView, Platform, StyleSheet, View} from "react-native";
 import RegisterForm from "@/components/register/register-form";
 import RegisterFooter from "@/components/register/register-footer";
 import RegisterTopAppBar from "@/components/register/register-top-app-bar";
-import ThemedScrollView from "@/components/themed-scroll-view";
 import {VerticalSpacer} from "@/components/vertical-spacer";
+import ThemedSafeAreaView from "@/components/themed-safe-area-view";
+import ThemedView from "@/components/themed-view";
+import ThemedScrollView from "@/components/themed-scroll-view";
 
 const Register = () => {
     return (
@@ -12,23 +14,26 @@ const Register = () => {
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-            <ThemedScrollView
-                keyboardShouldPersistTaps="handled"
-            >
+            <ThemedSafeAreaView>
                 <RegisterTopAppBar/>
-                <View style={styles.container}>
-                    <ThemedText type={"title"}>Register your account</ThemedText>
-                    <VerticalSpacer size={32}/>
-                    <RegisterForm/>
-                    <RegisterFooter/>
-                </View>
-            </ThemedScrollView>
+                <ThemedScrollView keyboardShouldPersistTaps='handled'>
+                    <View style={styles.contentContainer}>
+                        <ThemedText type={"title"}>Register your account</ThemedText>
+                        <VerticalSpacer size={32}/>
+                        <RegisterForm/>
+                        <RegisterFooter/>
+                    </View>
+                </ThemedScrollView>
+            </ThemedSafeAreaView>
         </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    contentContainer: {
         flex: 1,
         alignItems: "center",
         justifyContent: "space-evenly"
