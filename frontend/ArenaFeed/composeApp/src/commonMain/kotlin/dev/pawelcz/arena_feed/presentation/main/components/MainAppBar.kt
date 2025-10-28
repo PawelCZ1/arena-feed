@@ -32,18 +32,12 @@ fun MainAppBar(
     ) {
         TextButton(
             onClick = onLoginClick,
-//            colors = ButtonDefaults.textButtonColors(
-//                contentColor = Color.Black
-//            ),
             shape = RectangleShape
         ) {
             Text(text = "Login")
         }
         TextButton(
             onClick = onRegisterClick,
-//            colors = ButtonDefaults.textButtonColors(
-//                contentColor = Color.Black
-//            ),
             shape = RectangleShape
         ) {
             Text(text = "Register")

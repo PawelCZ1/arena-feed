@@ -1,4 +1,3 @@
-// `components/tournaments/tournament-list-item.tsx`
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useThemeColor } from '@/hooks/use-theme-color';
@@ -27,8 +26,22 @@ const TournamentListItem = ({ name, description, date, lightColor, darkColor }: 
         <View style={[{ backgroundColor }, styles.container]}>
             <Image style={styles.image} source={defaultImage} contentFit="cover" />
             <View style={styles.content}>
-                <ThemedText type={'subtitle'}>{name}</ThemedText>
-                {description ? <ThemedText>{description}</ThemedText> : <ThemedText>No description provided</ThemedText>}
+                <ThemedText type={'subtitle'} numberOfLines={1} ellipsizeMode="tail">
+                    {name}
+                </ThemedText>
+                {description ? (
+                    <ThemedText
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={styles.description}
+                    >
+                        {description}
+                    </ThemedText>
+                ) : (
+                    <ThemedText style={styles.description} numberOfLines={1} ellipsizeMode="tail">
+                        No description provided
+                    </ThemedText>
+                )}
                 <ThemedText type={'footer'}>{formattedDate}</ThemedText>
             </View>
         </View>
@@ -44,14 +57,17 @@ const styles = StyleSheet.create({
     },
     image: {
         height: 64,
-        width: 64, // liczba, nie "auto"
+        width: 64,
         borderRadius: 8,
         marginRight: 12,
     },
     content: {
         flex: 1,
-        flexShrink: 1,
-        flexWrap: 'wrap',
+        flexWrap: 'wrap'
+    },
+    description: {
+        marginTop: 4,
+        maxWidth: '80%',
     },
 });
 
