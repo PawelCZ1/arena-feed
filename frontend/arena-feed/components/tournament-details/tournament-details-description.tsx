@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 32,
         padding: 16,
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        width: '100%',
     }
 });
 

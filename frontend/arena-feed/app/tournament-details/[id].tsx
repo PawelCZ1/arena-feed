@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ThemedSafeAreaView from "@/components/themed-safe-area-view";
 import ThemedView from "@/components/themed-view";
-import {ActivityIndicator, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, ScrollView, StyleSheet, Text, View} from "react-native";
 import TournamentDetailsTopAppBar from "@/components/tournament-details/tournament-details-top-app-bar";
 import {useLocalSearchParams} from "expo-router";
 import {getTournamentById, TournamentRow} from "@/api/tournament/api";
@@ -13,6 +13,8 @@ import {ImageBackground} from "expo-image";
 import TournamentDetailsDate from "@/components/tournament-details/tournament-details-date";
 import TournamentDetailsLocation from "@/components/tournament-details/tournament-details-location";
 import TournamentDetailsContact from "@/components/tournament-details/tournament-details-contact";
+import ThemedButton from "@/components/themed-button";
+import TournamentDetailsParticipants from "@/components/tournament-details/tournament-details-participants";
 
 type Params = {id: string};
 
@@ -64,18 +66,19 @@ const TournamentDetails = () => {
                     </View>
                 ) : (
                     <ImageBackground style={styles.background} source={defaultImage} contentFit={"cover"} blurRadius={1}>
-                        <View style={styles.content}>
+                        <ScrollView contentContainerStyle={styles.content}>
                             <TournamentDetailsHeader text={data?.name}/>
                             <View style={styles.contentRow}>
                                 <TournamentDetailsDate date={data?.date}/>
                                 <TournamentDetailsLocation location={data?.location}/>
                             </View>
+                            <TournamentDetailsParticipants/>
                             <TournamentDetailsContact/>
+                            <ThemedButton title={"Join Tournament"} onPress={() => {}} />
                             <TournamentDetailsDescription description={data?.description}/>
-                        </View>
+                        </ScrollView>
                     </ImageBackground>
                 )}
-
             </ThemedView>
         </ThemedSafeAreaView>
     );
