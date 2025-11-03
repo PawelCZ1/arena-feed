@@ -3,6 +3,7 @@ import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View } f
 import TournamentListItem from '@/components/tournaments/tournament-list-item';
 import { VerticalSpacer } from '@/components/vertical-spacer';
 import { getTournaments, TournamentRow } from '@/api/tournament/api';
+import { useRouter } from 'expo-router';
 
 const PAGE_SIZE = 20;
 
@@ -14,6 +15,14 @@ const TournamentList = () => {
 
     const offsetRef = useRef<number>(0);
     const loadingRef = useRef<boolean>(false);
+
+    const router = useRouter();
+    const onItemPress = (item: TournamentRow) => {
+        router.push({
+            pathname: '/tournament-details/[id]',
+            params: { id: String(item.id) },
+        });
+    };
 
     const loadPage = useCallback(async (reset = false) => {
         if (loadingRef.current) return;
@@ -60,6 +69,7 @@ const TournamentList = () => {
             name={item.name ?? 'No name'}
             description={item.description ?? undefined}
             date={item.date ?? undefined}
+            onPress={() => onItemPress(item)}
         />
     );
 

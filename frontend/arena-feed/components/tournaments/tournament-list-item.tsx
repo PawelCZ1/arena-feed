@@ -1,19 +1,21 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { Image } from 'expo-image';
 import defaultImage from '@/assets/images/react-logo.png';
 import { ThemedText } from '@/components/themed-text';
+import {TournamentRow} from "@/api/tournament/api";
 
 interface Props {
     name: string;
     description?: string;
     date?: Date | string;
+    onPress?: (item: TournamentRow) => void;
     lightColor?: string;
     darkColor?: string;
 }
 
-const TournamentListItem = ({ name, description, date, lightColor, darkColor }: Props) => {
+const TournamentListItem = ({ name, description, date, onPress, lightColor, darkColor }: Props) => {
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'surface');
 
     const dateObj: Date | null =
@@ -23,28 +25,30 @@ const TournamentListItem = ({ name, description, date, lightColor, darkColor }: 
         dateObj && !isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString('pl-PL') : '';
 
     return (
-        <View style={[{ backgroundColor }, styles.container]}>
-            <Image style={styles.image} source={defaultImage} contentFit="cover" />
-            <View style={styles.content}>
-                <ThemedText type={'subtitle'} numberOfLines={1} ellipsizeMode="tail">
-                    {name}
-                </ThemedText>
-                {description ? (
-                    <ThemedText
-                        numberOfLines={1}
-                        ellipsizeMode="tail"
-                        style={styles.description}
-                    >
-                        {description}
+        <TouchableOpacity onPress={onPress}>
+            <View style={[{ backgroundColor }, styles.container]}>
+                <Image style={styles.image} source={defaultImage} contentFit="cover" />
+                <View style={styles.content}>
+                    <ThemedText type={'subtitle'} numberOfLines={1} ellipsizeMode="tail">
+                        {name}
                     </ThemedText>
-                ) : (
-                    <ThemedText style={styles.description} numberOfLines={1} ellipsizeMode="tail">
-                        No description provided
-                    </ThemedText>
-                )}
-                <ThemedText type={'footer'}>{formattedDate}</ThemedText>
+                    {description ? (
+                        <ThemedText
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                            style={styles.description}
+                        >
+                            {description}
+                        </ThemedText>
+                    ) : (
+                        <ThemedText style={styles.description} numberOfLines={1} ellipsizeMode="tail">
+                            No description provided
+                        </ThemedText>
+                    )}
+                    <ThemedText type={'footer'}>{formattedDate}</ThemedText>
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
