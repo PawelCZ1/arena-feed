@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import {ActivityIndicator, Alert, Platform, StyleSheet, View} from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { VerticalSpacer } from "@/components/vertical-spacer";
 import ThemedButton from "@/components/themed-button";
@@ -8,6 +8,7 @@ import FormRow from "@/components/form-row";
 import FormPasswordColumn from "@/components/form-password-column";
 import AndroidDatePicker from "@/components/android-date-picker";
 import IOSDatePicker from "@/components/ios-date-picker";
+import {supabase} from "@/api/supabase";
 
 const RegisterForm = () => {
     const [username, setUsername] = useState("");
@@ -19,11 +20,56 @@ const RegisterForm = () => {
     const [birthDate, setBirthDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
     const onDatePickerButtonPress = () => {
         setShowPicker((s) => !s);
     };
 
-    const onRegister = () => {};
+    const handleRegister = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            if (!email.trim() || !password.trim()) {
+                setError("Type your email and password.");
+                return;
+            }
+            if (password !== passwordConfirm) {
+                setError("Passwords are not the same.");
+                return;
+            }
+
+            const userMetadata = {
+                username: username.trim() || undefined,
+                firstName: firstName.trim() || undefined,
+                lastName: lastName.trim() || undefined,
+                birthDate: birthDate.toISOString().slice(0, 10), // YYYY-MM-DD
+            };
+
+            const { data, error } = await supabase.auth.signUp({
+                email: email.trim(),
+                password: password.trim(),
+                options: {
+                    data: userMetadata
+                }
+            });
+
+            if (error) {
+                setError(error.message);
+                return;
+            }
+
+            if (!data.session) {
+                Alert.alert("Please check your inbox for email verification!");
+            }
+        } catch (e: any) {
+            setError(e?.message ?? "Error during registration.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const onAndroidChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
         // Android: dialog returns event.type 'set' when confirmed
@@ -38,6 +84,14 @@ const RegisterForm = () => {
             setBirthDate(selectedDate);
         }
     };
+
+    if (loading) {
+        return <ActivityIndicator/>;
+    }
+
+    if (error) {
+        return <ThemedText style={{ color: "red" }}>{error}</ThemedText>;
+    }
 
     return (
         <View style={styles.container}>
@@ -97,7 +151,7 @@ const RegisterForm = () => {
             <ThemedButton
                 title={"Register"}
                 style={styles.button}
-                onPress={onRegister}
+                onPress={handleRegister}
             />
         </View>
     );
