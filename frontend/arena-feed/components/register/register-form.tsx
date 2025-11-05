@@ -34,10 +34,12 @@ const RegisterForm = () => {
 
             if (!email.trim() || !password.trim()) {
                 setError("Type your email and password.");
+                Alert.alert("Type your email and password.");
                 return;
             }
             if (password !== passwordConfirm) {
                 setError("Passwords are not the same.");
+                Alert.alert("Passwords are not the same.");
                 return;
             }
 
@@ -66,6 +68,7 @@ const RegisterForm = () => {
             }
         } catch (e: any) {
             setError(e?.message ?? "Error during registration.");
+            Alert.alert(error || "Error during registration.");
         } finally {
             setLoading(false);
         }
@@ -86,11 +89,11 @@ const RegisterForm = () => {
     };
 
     if (loading) {
-        return <ActivityIndicator/>;
-    }
-
-    if (error) {
-        return <ThemedText style={{ color: "red" }}>{error}</ThemedText>;
+        return(
+            <View style={styles.loading}>
+                <ActivityIndicator/>
+            </View>
+        );
     }
 
     return (
@@ -177,6 +180,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         gap: 8,
     },
+    loading: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    }
 });
 
 export default RegisterForm;

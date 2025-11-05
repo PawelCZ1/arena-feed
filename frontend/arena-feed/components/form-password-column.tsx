@@ -1,7 +1,7 @@
 import {ThemedText} from "@/components/themed-text";
 import ThemedTextInput from "@/components/themed-text-input";
 import {VerticalSpacer} from "@/components/vertical-spacer";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 
 interface Props {
     password: string;
@@ -29,6 +29,11 @@ const FormPasswordColumn = ({password, onChangePassword, passwordConfirm, onChan
                 onChangeText={onChangePasswordConfirm}
                 placeholder="Retype your password"
             />
+            {password.length === 0 && passwordConfirm.length === 0 ? null : password === passwordConfirm ? (
+                <Text style={styles.valid}>Passwords match</Text>
+            ) : (
+                <Text style={styles.wrong}>Passwords do not match</Text>
+            )}
         </View>
     );
 };
@@ -39,6 +44,14 @@ const styles = StyleSheet.create({
     },
     input: {
         width: 300,
+    },
+    valid: {
+        color: 'green',
+        fontWeight: 'bold',
+    },
+    wrong: {
+        color: 'red',
+        fontWeight: 'bold',
     }
 });
 
