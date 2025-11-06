@@ -26,6 +26,12 @@ export default function RootLayout() {
         }}
       />
         <Stack.Screen
+            name="login"
+            options={{
+                animation: 'fade'
+            }}
+        />
+        <Stack.Screen
             name="tournaments" options={{
                 animation: 'fade'
             }}

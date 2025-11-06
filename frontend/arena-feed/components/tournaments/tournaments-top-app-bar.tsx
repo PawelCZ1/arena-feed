@@ -10,7 +10,7 @@ const TournamentsTopAppBar = () => {
         router.back();
     }
     const onLogin = () => {
-        //router.push('/login');
+        router.push('/login');
     };
     const onRegister = () => {
         router.push('/register');

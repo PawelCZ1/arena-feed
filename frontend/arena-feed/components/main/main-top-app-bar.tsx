@@ -6,7 +6,7 @@ import ThemedTextButton from "@/components/themed-text-button";
 const MainTopAppBar = () => {
     const router = useRouter();
     const onLogin = () => {
-        //router.push('/login');
+        router.push('/login');
     };
     const onRegister = () => {
         router.push('/register');
