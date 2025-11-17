@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import {Alert, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 import {Platform} from "react-native";
 import ThemedSafeAreaView from "@/components/themed-safe-area-view";
 import LoginTopAppBar from "@/components/login/login-top-app-bar";
@@ -9,13 +9,32 @@ import FormRow from "@/components/form-row";
 import FormLoginPasswordRow from "@/components/form-login-password-row";
 import ThemedTextButton from "@/components/themed-text-button";
 import ThemedButton from "@/components/themed-button";
+import {supabase} from "@/api/supabase";
+import {useAuth} from "@/api/auth/auth-provider";
+import {useRouter} from "expo-router";
 
 const Login = () => {
-    const [username, setUsername] = useState("");
+    const router = useRouter();
+    const { signIn, loading: authLoading } = useAuth();
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [localLoading, setLocalLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleLogin = () => {
-
+    const handleLogin = async () => {
+        setError(null);
+        setLocalLoading(true);
+        try {
+            await signIn(email, password);
+            Alert.alert("Success", "You have been logged in successfully.", [
+                ({ text: "OK", onPress: () => router.replace("/main") }),
+            ]);
+        } catch (e) {
+            console.error(e);
+            setError("An unexpected error occurred.");
+        } finally {
+            setLocalLoading(false);
+        }
     };
 
     return (
@@ -28,7 +47,7 @@ const Login = () => {
                 <ThemedText type={"title"} style={styles.header}>Log In</ThemedText>
                 <ThemedScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={styles.contentContainer}>
                     <View>
-                        <FormRow inputName={"Username"} inputValue={username} onChangeText={setUsername}/>
+                        <FormRow inputName={"Email"} placeholder={"Type your email"} inputValue={email} onChangeText={setEmail}/>
                         <FormLoginPasswordRow password={password} onChangePassword={setPassword} />
                     </View>
                     <ThemedButton style={styles.button} title={"Log In"} onPress={handleLogin}/>
@@ -44,7 +63,9 @@ const styles = StyleSheet.create({
         flex: 1
     },
     header: {
-        textAlign: "center"
+        textAlign: "left",
+        paddingStart: 16,
+        paddingTop: 48
     },
     contentContainer: {
         flex: 1,

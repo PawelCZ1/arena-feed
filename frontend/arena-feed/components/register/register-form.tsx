@@ -9,6 +9,7 @@ import FormPasswordColumn from "@/components/form-password-column";
 import AndroidDatePicker from "@/components/android-date-picker";
 import IOSDatePicker from "@/components/ios-date-picker";
 import {supabase} from "@/api/supabase";
+import {useRouter} from "expo-router";
 
 const RegisterForm = () => {
     const [username, setUsername] = useState("");
@@ -22,6 +23,8 @@ const RegisterForm = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const router = useRouter();
 
     const onDatePickerButtonPress = () => {
         setShowPicker((s) => !s);
@@ -65,6 +68,7 @@ const RegisterForm = () => {
 
             if (!data.session) {
                 Alert.alert("Please check your inbox for email verification!");
+                router.push("/login");
             }
         } catch (e: any) {
             setError(e?.message ?? "Error during registration.");
