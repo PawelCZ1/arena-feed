@@ -68,7 +68,7 @@ const RegisterForm = () => {
 
             if (!data.session) {
                 Alert.alert("Please check your inbox for email verification!");
-                router.push("/login");
+                router.replace("/login");
             }
         } catch (e: any) {
             setError(e?.message ?? "Error during registration.");

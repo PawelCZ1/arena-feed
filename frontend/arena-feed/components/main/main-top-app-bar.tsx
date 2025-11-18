@@ -2,11 +2,20 @@ import {StyleSheet, View} from 'react-native';
 import ThemedView from "@/components/themed-view";
 import {useRouter} from "expo-router";
 import ThemedTextButton from "@/components/themed-text-button";
+import {useAuth} from "@/api/auth/auth-provider";
+import {ThemedText} from "@/components/themed-text";
+import {useUserProfile} from "@/api/users/user";
 
 const MainTopAppBar = () => {
     const router = useRouter();
+    const { session, user, signOut } = useAuth();
+    const { profile } = useUserProfile(user?.id ?? null);
     const onLogin = () => {
         router.push('/login');
+    };
+    const onLogout = async () => {
+        await signOut();
+        router.replace('/');
     };
     const onRegister = () => {
         router.push('/register');
@@ -15,9 +24,21 @@ const MainTopAppBar = () => {
     return (
         <ThemedView style={styles.container}>
             <View style={styles.buttonContainer}>
-                <ThemedTextButton onPress={onLogin} title={"Login"}/>
-                <ThemedTextButton onPress={onRegister} title={"Register"}/>
+                {!session ? (
+                    <>
+                        <ThemedTextButton onPress={onLogin} title={"Login"}/>
+                        <ThemedTextButton onPress={onRegister} title={"Register"}/>
+                    </>
+                ) : (
+                    <>
+                        <ThemedTextButton onPress={onLogout} title={"Logout"}/>
+                        <ThemedText>
+                            {profile?.username}
+                        </ThemedText>
+                    </>
+                )}
             </View>
+
         </ThemedView>
     );
 };
