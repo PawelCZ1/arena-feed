@@ -44,6 +44,12 @@ export default function RootLayout() {
                       animation: 'fade'
                   }}
               />
+                <Stack.Screen
+                    name="profile-details"
+                    options={{
+                        animation: 'fade'
+                    }}
+                />
             </Stack>
         </AuthProvider>
   </ThemeProvider>;

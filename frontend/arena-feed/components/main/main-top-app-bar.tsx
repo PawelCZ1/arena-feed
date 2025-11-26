@@ -17,6 +17,9 @@ const MainTopAppBar = () => {
         await signOut();
         router.replace('/');
     };
+    const onProfileClick = () => {
+        router.push('/profile-details');
+    };
     const onRegister = () => {
         router.push('/register');
     };
@@ -32,9 +35,7 @@ const MainTopAppBar = () => {
                 ) : (
                     <>
                         <ThemedTextButton onPress={onLogout} title={"Logout"}/>
-                        <ThemedText>
-                            {profile?.username}
-                        </ThemedText>
+                        <ThemedTextButton onPress={onProfileClick} title={profile?.username ?? "Null"}/>
                     </>
                 )}
             </View>

@@ -4,21 +4,31 @@ import { supabase } from '@/api/supabase';
 type UserProfile = {
     id: string;
     username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    birthDate?: Date | null;
 };
 
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
-    const res = await supabase
+    const {data , error} = await supabase
         .schema('public')
         .from('profiles')
-        .select('id, username')
+        .select('id, username, first_name, last_name, birth_date')
         .eq('id', userId)
         .single();
 
-    if (res.error) {
-        console.error('getUserProfile error', res.error);
+    if (error) {
+        console.error('getUserProfile error', error);
         return null;
     }
-    return (res.data as UserProfile) ?? null;
+    if (!data) return null;
+    return {
+        id: data.id,
+        username: data.username ?? null,
+        firstName: data.first_name ?? null,
+        lastName: data.last_name ?? null,
+        birthDate: data.birth_date ? new Date(data.birth_date) : null,
+    };
 }
 
 export function useUserProfile(userId?: string | null) {
