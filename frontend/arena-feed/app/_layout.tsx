@@ -50,6 +50,12 @@ export default function RootLayout() {
                         animation: 'fade'
                     }}
                 />
+                <Stack.Screen
+                    name="create-tournament"
+                    options={{
+                        animation: 'fade'
+                    }}
+                />
             </Stack>
         </AuthProvider>
   </ThemeProvider>;

@@ -7,12 +7,16 @@ const MainContent = () => {
 
     const navigateToTournaments = () => {
         router.push("/tournaments");
-    }
+    };
+
+    const navigateToCreateTournament = () => {
+        router.push("/create-tournament");
+    };
 
     return (
         <View style={styles.container}>
             <ThemedButton style={styles.button} title={"Search upcoming tournaments"} onPress={navigateToTournaments}/>
-            <ThemedButton style={styles.button} title={"Create new tournament"}/>
+            <ThemedButton style={styles.button} title={"Create new tournament"} onPress={navigateToCreateTournament}/>
         </View>
     );
 };
