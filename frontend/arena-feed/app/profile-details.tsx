@@ -9,6 +9,7 @@ import {ScrollView, StyleSheet, View} from "react-native";
 import ProfileDetailsStatsSection from "@/components/profile-details/profile-details-stats-section";
 import ProfileDetailsRecentTournamentsSection
     from "@/components/profile-details/profile-details-recent-tournaments-section";
+import TournamentList from "@/components/tournaments/tournament-list";
 
 const ProfileDetails = () => {
     const { user, session } = useAuth();
