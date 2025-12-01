@@ -10,7 +10,7 @@ const CreateTournamentHeader = () => {
 
 const styles = StyleSheet.create({
     header: {
-        paddingTop: 48,
+        paddingTop: 32,
         paddingStart: 16,
         width: "100%",
         fontWeight: 'bold',

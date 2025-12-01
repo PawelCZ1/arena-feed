@@ -140,14 +140,14 @@ const RegisterForm = () => {
 
                 {Platform.OS === "ios" ? (
                     <IOSDatePicker
-                        birthDate={birthDate}
+                        date={birthDate}
                         showPicker={showPicker}
                         onDatePickerButtonPress={onDatePickerButtonPress}
                         onIOSChange={onIOSChange}
                     />
                 ) : (
                     <AndroidDatePicker
-                        birthDate={birthDate}
+                        date={birthDate}
                         showPicker={showPicker}
                         onDatePickerButtonPress={onDatePickerButtonPress}
                         onAndroidChange={onAndroidChange}

@@ -5,18 +5,18 @@ import ThemedButton from "@/components/themed-button";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 interface Props {
-    birthDate: Date;
+    date: Date;
     showPicker: boolean;
     onDatePickerButtonPress: () => void;
     onAndroidChange: (event: any, selectedDate?: Date) => void;
 }
 
-const AndroidDatePicker = ({birthDate, showPicker, onDatePickerButtonPress, onAndroidChange}: Props) => {
+const AndroidDatePicker = ({date, showPicker, onDatePickerButtonPress, onAndroidChange}: Props) => {
     return (
         <>
             <View style={styles.datePickerButton}>
                 <ThemedText style={{ textAlign: "center" }}>
-                    {birthDate.toLocaleDateString("pl-PL")}
+                    {date.toLocaleDateString("pl-PL")}
                 </ThemedText>
                 <ThemedButton
                     title={showPicker ? "Hide picker" : "Show picker"}
@@ -26,7 +26,7 @@ const AndroidDatePicker = ({birthDate, showPicker, onDatePickerButtonPress, onAn
 
             {showPicker && (
                 <RNDateTimePicker
-                    value={birthDate}
+                    value={date}
                     mode="date"
                     display="calendar"
                     onChange={onAndroidChange}
