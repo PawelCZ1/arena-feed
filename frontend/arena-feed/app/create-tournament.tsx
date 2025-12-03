@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, Platform, StyleSheet, View} from "react-native";
+import {Alert, KeyboardAvoidingView, Platform, StyleSheet, View} from "react-native";
 import ThemedSafeAreaView from "@/components/themed-safe-area-view";
 import CreateTournamentTopAppBar from "@/components/create-tournament/create-tournament-top-app-bar";
 import CreateTournamentHeader from "@/components/create-tournament/create-tournament-header";
@@ -11,6 +11,9 @@ import IOSDatePicker from "@/components/ios-date-picker";
 import AndroidDatePicker from "@/components/android-date-picker";
 import CreateTournamentDescriptionRow from "@/components/create-tournament/create-tournament-description-row";
 import ThemedButton from "@/components/themed-button";
+import {supabase} from "@/api/supabase";
+import {createTournament} from "@/api/tournament/api";
+import {useRouter} from "expo-router";
 
 const CreateTournament = () => {
     const [name, setName] = useState("");
@@ -21,6 +24,41 @@ const CreateTournament = () => {
     const [showPicker, setShowPicker] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const router = useRouter();
+
+    const handleCreate = async () => {
+        if (name.trim() === "" || description.trim() === "" || location.trim() === "") {
+            Alert.alert("Please fill in all fields.");
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const { data: {user} } = await supabase.auth.getUser();
+            await createTournament({
+                name: name.trim(),
+                description: description.trim(),
+                location: location.trim(),
+                date: date.toISOString(),
+                owner_id: user?.id ?? null
+            });
+        } catch (e) {
+            const message = e instanceof Error ? e.message : "An unexpected error occurred.";
+            setError(message);
+        } finally {
+            setLoading(false);
+            if (!error) {
+                Alert.alert("Success", "Tournament created successfully.", [
+                    { text: "OK" , onPress: () => router.replace('/main') }
+                ]);
+            } else {
+                Alert.alert(error);
+            }
+        }
+    };
 
     const onDatePickerButtonPress = () => {
         setShowPicker((s) => !s);
@@ -73,7 +111,7 @@ const CreateTournament = () => {
                             />
                         )}
                     </View>
-                    <ThemedButton title="Create"  onPress={() => {}}/>
+                    <ThemedButton title="Create"  onPress={handleCreate}/>
 
                 </ThemedScrollView>
             </ThemedSafeAreaView>

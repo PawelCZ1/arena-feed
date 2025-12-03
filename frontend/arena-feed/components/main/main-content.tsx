@@ -1,16 +1,30 @@
-import {StyleSheet, View} from "react-native";
+import {Alert, StyleSheet, View} from "react-native";
 import ThemedButton from "@/components/themed-button";
 import {useRouter} from "expo-router";
+import {useAuth} from "@/api/auth/auth-provider";
 
 const MainContent = () => {
     const router = useRouter();
+    const { session } = useAuth();
 
     const navigateToTournaments = () => {
         router.push("/tournaments");
     };
 
     const navigateToCreateTournament = () => {
-        router.push("/create-tournament");
+        if (!session) {
+            Alert.alert(
+                "Authentication required",
+                "You must be logged in to create a tournament.",
+                [
+                    { text: "Login", onPress: () => router.push("/login") },
+                    { text: "Register", onPress: () => router.push("/register") },
+                    { text: "Cancel", style: "cancel" }
+                ]
+            );
+        } else {
+            router.push("/create-tournament");
+        }
     };
 
     return (

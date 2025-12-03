@@ -3,7 +3,7 @@ import { supabase } from '../supabase';
 export type TournamentRow = {
     id: number;
     name?: string;
-    owner_id?: number;
+    owner_id?: string | null;
     description?: string;
     location?: string;
     date?: string;
