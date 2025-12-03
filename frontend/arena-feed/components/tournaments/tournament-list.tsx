@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import TournamentListItem from '@/components/tournaments/tournament-list-item';
 import { VerticalSpacer } from '@/components/vertical-spacer';
-import { getTournaments, TournamentRow } from '@/api/tournament/api';
+import { getTournaments, TournamentRow } from '@/api/tournament/tournament';
 import { useRouter } from 'expo-router';
 
 const PAGE_SIZE = 20;

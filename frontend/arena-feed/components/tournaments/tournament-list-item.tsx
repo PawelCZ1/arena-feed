@@ -4,7 +4,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { Image } from 'expo-image';
 import defaultImage from '@/assets/images/react-logo.png';
 import { ThemedText } from '@/components/themed-text';
-import {TournamentRow} from "@/api/tournament/api";
+import {TournamentRow} from "@/api/tournament/tournament";
 
 interface Props {
     name: string;

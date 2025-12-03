@@ -40,7 +40,7 @@ export async function getTournaments(params?: {
     return { items: data ?? [], count: count ?? 0 };
 }
 
-export async function getTournamentById(id: number): Promise<TournamentRow | null> {
+export async function getTournamentById(id: string): Promise<TournamentRow | null> {
     const { data, error } = await supabase.from(TABLE).select('*').eq('id', id).single();
     if (error) throw error;
     return (data as TournamentRow) ?? null;

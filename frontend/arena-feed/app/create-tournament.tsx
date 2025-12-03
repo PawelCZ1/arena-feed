@@ -12,7 +12,7 @@ import AndroidDatePicker from "@/components/android-date-picker";
 import CreateTournamentDescriptionRow from "@/components/create-tournament/create-tournament-description-row";
 import ThemedButton from "@/components/themed-button";
 import {supabase} from "@/api/supabase";
-import {createTournament} from "@/api/tournament/api";
+import {createTournament} from "@/api/tournament/tournament";
 import {useRouter} from "expo-router";
 
 const CreateTournament = () => {
