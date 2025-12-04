@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import {useAuth} from "@/api/auth/auth-provider";
 import {useUserProfile} from "@/api/users/user";
 import ThemedSafeAreaView from "@/components/themed-safe-area-view";
@@ -23,7 +23,7 @@ const ProfileDetails = () => {
                     <ProfileDetailsHeader username={profile?.username}/>
                     <ProfileDetailsBioSection firstName={profile?.firstName} lastName={profile?.lastName} birthdate={profile?.birthDate}/>
                     <ProfileDetailsStatsSection/>
-                    <ProfileDetailsRecentTournamentsSection/>
+                    <ProfileDetailsRecentTournamentsSection userId={user?.id}/>
                 </View>
             </ScrollView>
         </ThemedSafeAreaView>

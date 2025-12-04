@@ -64,3 +64,17 @@ export async function deleteTournament(id: number): Promise<void> {
     const { error } = await supabase.from(TABLE).delete().eq('id', id);
     if (error) throw error;
 }
+
+export async function getTournamentsByCompetitorId(competitorId: string, limit?: number): Promise<TournamentRow[]> {
+    let query = supabase
+        .from('tournaments')
+        .select('*, competitors!inner(*)')
+        .eq('competitors.user_id', competitorId)
+        .order('created_at', { ascending: false });
+
+    if (limit != null) query = query.limit(limit);
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data as TournamentRow[]) ?? [];
+}
