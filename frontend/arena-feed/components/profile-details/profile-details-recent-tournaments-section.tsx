@@ -4,6 +4,7 @@ import {ThemedText} from "@/components/themed-text";
 import TournamentListItem from "@/components/tournaments/tournament-list-item";
 import {supabase} from "@/api/supabase";
 import {getTournamentsByCompetitorId, TournamentRow} from "@/api/tournament/tournament";
+import {useRouter} from "expo-router";
 
 interface Props {
     userId?: string;
@@ -13,6 +14,14 @@ const ProfileDetailsRecentTournamentsSection = ({userId}: Props) => {
     const [recentTournaments, setRecentTournaments] = useState<TournamentRow[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
+
+    const onRecentTournamentPress = (tournament: TournamentRow) => {
+        router.push({
+            pathname: '/tournament-details/[id]',
+            params: { id: String(tournament.id) },
+        });
+    };
 
     const loadRecentTournaments = useCallback(async () => {
         if (!userId) {
@@ -43,7 +52,7 @@ const ProfileDetailsRecentTournamentsSection = ({userId}: Props) => {
                 Recent Tournaments
             </ThemedText>
             {!loading && !error && recentTournaments.map((tournament) => (
-                <TournamentListItem key={tournament.id} name={tournament?.name ?? "No name"}/>
+                <TournamentListItem key={tournament.id} name={tournament?.name ?? "No name"} onPress={() => {onRecentTournamentPress(tournament)}} />
             ))}
         </View>
     );
