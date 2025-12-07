@@ -14,6 +14,8 @@ import ThemedButton from "@/components/themed-button";
 import {supabase} from "@/api/supabase";
 import {createTournament} from "@/api/tournament/tournament";
 import {useRouter} from "expo-router";
+import CreateTournamentCategorySection from "@/components/create-tournament/create-tournament-category-section";
+import CreateTournamentCategoryRow from "@/components/create-tournament/create-tournament-category-row";
 
 const CreateTournament = () => {
     const [name, setName] = useState("");
@@ -111,8 +113,8 @@ const CreateTournament = () => {
                             />
                         )}
                     </View>
+                    <CreateTournamentCategorySection/>
                     <ThemedButton title="Create"  onPress={handleCreate}/>
-
                 </ThemedScrollView>
             </ThemedSafeAreaView>
         </KeyboardAvoidingView>
@@ -121,7 +123,7 @@ const CreateTournament = () => {
 
 const styles = StyleSheet.create({
     contentContainer: {
-        flex: 1,
+        flexGrow: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
         gap: 16

@@ -1,21 +1,22 @@
-import { View } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import {useThemeColor} from "@/hooks/use-theme-color";
 
 interface Props {
     thickness: number;
     lightColor?: string;
     darkColor?: string;
+    style?: ViewStyle;
 }
 
-export const HorizontalDivider = ({ thickness, lightColor, darkColor }: Props) => {
+export const HorizontalDivider = ({ thickness, lightColor, darkColor, style }: Props) => {
     const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
     return (
         <View
-            style={{
-                width: '100%',
+            style={[{
+                alignSelf: 'stretch',
                 height: thickness,
-                backgroundColor: color
-            }}
+                backgroundColor: color,
+            }, style]}
         />
     );
 };
