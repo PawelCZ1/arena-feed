@@ -16,6 +16,7 @@ import {createTournament} from "@/api/tournament/tournament";
 import {useRouter} from "expo-router";
 import CreateTournamentCategorySection from "@/components/create-tournament/create-tournament-category-section";
 import CreateTournamentCategoryRow from "@/components/create-tournament/create-tournament-category-row";
+import {createCategory} from "@/api/category/category";
 
 const CreateTournament = () => {
     const [name, setName] = useState("");
@@ -60,13 +61,22 @@ const CreateTournament = () => {
 
         try {
             const { data: {user} } = await supabase.auth.getUser();
-            await createTournament({
+            const tournament = await createTournament({
                 name: name.trim(),
                 description: description.trim(),
                 location: location.trim(),
                 date: date.toISOString(),
                 owner_id: user?.id ?? null
             });
+
+            if (categories.length > 0) {
+                await Promise.all(
+                    categories.map((catName) => createCategory({
+                        name: catName,
+                        tournament_id: tournament.id.toString()
+                    }))
+                );
+            }
         } catch (e) {
             const message = e instanceof Error ? e.message : "An unexpected error occurred.";
             setError(message);
