@@ -1,24 +1,30 @@
-import React from 'react';
+import {useState} from 'react';
 import {StyleSheet, View} from "react-native";
 import {ThemedText} from "@/components/themed-text";
 import ThemedTextInput from "@/components/themed-text-input";
 import ThemedButton from "@/components/themed-button";
 import CreateTournamentCategoryRow from "@/components/create-tournament/create-tournament-category-row";
 
-const CreateTournamentCategorySection = () => {
+interface Props {
+    onAddCategory: (categoryName: string) => void;
+    categories: string[];
+    onDeleteCategory: (index: number) => void;
+}
+
+const CreateTournamentCategorySection = ({onAddCategory, categories, onDeleteCategory}: Props) => {
+    const [input, setInput] = useState("");
     return (
         <View style={styles.container}>
             <ThemedText style={styles.text}>
                 Categories
             </ThemedText>
             <View style={styles.add}>
-                <ThemedButton style={styles.button} onPress={()=> {}} title="Add"/>
-                <ThemedTextInput style={styles.input} value={""} placeholder={""}/>
+                <ThemedButton style={styles.button} onPress={()=> {onAddCategory(input.trim())}} title="Add"/>
+                <ThemedTextInput style={styles.input} value={input} placeholder={""} onChangeText={setInput}/>
             </View>
-            <CreateTournamentCategoryRow value={"Test"}/>
-            <CreateTournamentCategoryRow value={"Test"}/>
-            <CreateTournamentCategoryRow value={"Test"}/>
-            <CreateTournamentCategoryRow value={"Test"}/>
+            {categories.map((category, index) => (
+                <CreateTournamentCategoryRow key={index} value={category} onDelete={() => {onDeleteCategory(index)}}/>
+            ))}
         </View>
     );
 };

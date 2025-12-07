@@ -23,11 +23,31 @@ const CreateTournament = () => {
     const [location, setLocation] = useState("");
     const [date, setDate] = useState(new Date());
 
+    const [categories, setCategories] = useState<string[]>([]);
+
     const [showPicker, setShowPicker] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const router = useRouter();
+
+    const onAddCategory = (name: string) => {
+        setCategories((prevCategories) => [...prevCategories, name]);
+    };
+
+    const onDeleteCategory = (index: number) => {
+        Alert.alert("Delete Category", "Are you sure you want to delete this category?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Delete", style: "destructive",
+                    onPress: () => {
+                        setCategories(prev => prev.filter((_, i) => i !== index));
+                    }
+                }
+            ]
+        );
+    };
 
     const handleCreate = async () => {
         if (name.trim() === "" || description.trim() === "" || location.trim() === "") {
@@ -113,7 +133,7 @@ const CreateTournament = () => {
                             />
                         )}
                     </View>
-                    <CreateTournamentCategorySection/>
+                    <CreateTournamentCategorySection onAddCategory={onAddCategory} categories = {categories} onDeleteCategory={onDeleteCategory}/>
                     <ThemedButton title="Create"  onPress={handleCreate}/>
                 </ThemedScrollView>
             </ThemedSafeAreaView>
