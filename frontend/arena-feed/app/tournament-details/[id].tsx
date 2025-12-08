@@ -42,29 +42,45 @@ const TournamentDetails = () => {
     const shouldShowJoinButton = !!userId && !hasJoined;
 
     const onJoinTournamentPress = () => {
-        Alert.alert("Join Tournament", "Are you sure you want to join this tournament?", [
-            { text: "Cancel", style: "cancel" },
-            { text: "Join", onPress: handleJoinTournament }
-        ]);
+        if (!categories.length) {
+            Alert.alert(
+                'Join Tournament',
+                'No categories available for this tournament.'
+            );
+            return;
+        }
+
+        Alert.alert(
+            'Choose category',
+            'Select a category to join:',
+            [
+                ...categories.map((cat) => ({
+                    text: cat.name,
+                    onPress: () => handleJoinTournament(cat.id),
+                })),
+                { text: 'Cancel', style: 'cancel' },
+            ]
+        );
     };
 
-    const handleJoinTournament = async () => {
+    const handleJoinTournament = async (categoryId?: string) => {
         setLoading(true);
         setError(null);
 
         try {
             await createCompetitor({
                 tournament_id: id,
-                user_id: userId!
+                user_id: userId!,
+                category_id: categoryId,
             });
 
             const participantsResponse = await getCompetitorsByTournamentId(id);
             setParticipants(participantsResponse);
 
-            Alert.alert("Success", "You joined the tournament.");
+            Alert.alert('Success', 'You joined the tournament.');
             setHasJoined(true);
         } catch (e) {
-            const message = e instanceof Error ? e.message : "An unexpected error occurred.";
+            const message = e instanceof Error ? e.message : 'An unexpected error occurred.';
             setError(message);
             Alert.alert(message);
         } finally {
@@ -114,7 +130,6 @@ const TournamentDetails = () => {
         };
     }, [id]);
 
-    // liczenie zawodników w każdej kategorii na podstawie participants.category_id
     const categoriesWithCount: CategoryWithCount[] = useMemo(() => {
         if (!categories.length) return [];
 

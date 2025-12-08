@@ -14,7 +14,10 @@ const TournamentDetailsCategoryGridItem = ({lightColor, darkColor, categoryName,
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'surface');
     return (
         <View style={[{backgroundColor}, styles.container]}>
-            <ThemedText>
+            <ThemedText
+                numberOfLines={1}
+                ellipsizeMode={"tail"}
+            >
                 {categoryName ?? "No name"}
             </ThemedText>
             <ThemedText>
@@ -26,7 +29,11 @@ const TournamentDetailsCategoryGridItem = ({lightColor, darkColor, categoryName,
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 4
+        borderRadius: 4,
+        padding: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 2,
     }
 });
 

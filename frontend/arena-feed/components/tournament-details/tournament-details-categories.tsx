@@ -16,7 +16,7 @@ const TournamentDetailsCategories = ({categories}: Props) => {
     return (
         <View style={styles.wrapper}>
             <ThemedText style={styles.text}>
-                Categories
+                {categories.length !== 0 ? 'Categories' : 'No categories available'}
             </ThemedText>
 
             <View style={styles.grid}>
