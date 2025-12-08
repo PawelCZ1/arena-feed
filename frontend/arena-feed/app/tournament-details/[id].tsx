@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import ThemedSafeAreaView from "@/components/themed-safe-area-view";
 import ThemedView from "@/components/themed-view";
 import {ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View} from "react-native";
 import TournamentDetailsTopAppBar from "@/components/tournament-details/tournament-details-top-app-bar";
 import {useLocalSearchParams, useRouter} from "expo-router";
 import {getTournamentById, TournamentRow} from "@/api/tournament/tournament";
-import {ThemedText} from "@/components/themed-text";
 import TournamentDetailsHeader from "@/components/tournament-details/tournament-details-header";
 import TournamentDetailsDescription from "@/components/tournament-details/tournament-details-description";
-import defaultImage from '@/assets/images/react-logo.png';
 import {ImageBackground} from "expo-image";
 import TournamentDetailsDate from "@/components/tournament-details/tournament-details-date";
 import TournamentDetailsLocation from "@/components/tournament-details/tournament-details-location";
@@ -17,13 +15,17 @@ import ThemedButton from "@/components/themed-button";
 import TournamentDetailsParticipants from "@/components/tournament-details/tournament-details-participants";
 import {CompetitorRow, createCompetitor, getCompetitorsByTournamentId} from "@/api/competitor/competitor";
 import {useAuth} from "@/api/auth/auth-provider";
-import {supabase} from "@/api/supabase";
+import TournamentDetailsCategories from "@/components/tournament-details/tournament-details-categories";
+import {Category, getCategoriesByTournamentId} from "@/api/category/category";
+import defaultImage from '@/assets/images/react-logo.png';
+
 
 type Params = {id: string};
 
+type CategoryWithCount = Category & { competitorsCount: number };
+
 const TournamentDetails = () => {
     const params = useLocalSearchParams<Params>();
-
     const id = params.id;
 
     const {session} = useAuth();
@@ -32,6 +34,7 @@ const TournamentDetails = () => {
 
     const [data, setData] = useState<TournamentRow | null>(null);
     const [participants, setParticipants] = useState<CompetitorRow[] | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [hasJoined, setHasJoined] = useState(false);
@@ -54,17 +57,18 @@ const TournamentDetails = () => {
                 tournament_id: id,
                 user_id: userId!
             });
+
+            const participantsResponse = await getCompetitorsByTournamentId(id);
+            setParticipants(participantsResponse);
+
+            Alert.alert("Success", "You joined the tournament.");
+            setHasJoined(true);
         } catch (e) {
             const message = e instanceof Error ? e.message : "An unexpected error occurred.";
             setError(message);
+            Alert.alert(message);
         } finally {
             setLoading(false);
-            if (!error) {
-                Alert.alert("Success", "You joined the tournament.");
-                setHasJoined(true);
-            } else {
-                Alert.alert(error);
-            }
         }
     };
 
@@ -83,13 +87,16 @@ const TournamentDetails = () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await getTournamentById(id);
+                const [tournamentResponse, participantsResponse, categoriesResponse] = await Promise.all([
+                    getTournamentById(id),
+                    getCompetitorsByTournamentId(id),
+                    getCategoriesByTournamentId(id),
+                ]);
+
                 if (mounted) {
-                    setData(response);
-                }
-                const participantsResponse = await getCompetitorsByTournamentId(id)
-                if (mounted) {
+                    setData(tournamentResponse);
                     setParticipants(participantsResponse);
+                    setCategories(categoriesResponse);
                 }
             } catch (e: any) {
                 if (mounted) {
@@ -107,6 +114,26 @@ const TournamentDetails = () => {
         };
     }, [id]);
 
+    // liczenie zawodników w każdej kategorii na podstawie participants.category_id
+    const categoriesWithCount: CategoryWithCount[] = useMemo(() => {
+        if (!categories.length) return [];
+
+        const countsByCategoryId: Record<string, number> = (participants ?? []).reduce(
+            (acc, competitor) => {
+                const categoryId = competitor.category_id;
+                if (!categoryId) return acc;
+                acc[categoryId] = (acc[categoryId] ?? 0) + 1;
+                return acc;
+            },
+            {} as Record<string, number>
+        );
+
+        return categories.map((c) => ({
+            ...c,
+            competitorsCount: countsByCategoryId[c.id] ?? 0,
+        }));
+    }, [categories, participants]);
+
     return (
         <ThemedSafeAreaView>
             <ThemedView style={styles.container}>
@@ -118,7 +145,12 @@ const TournamentDetails = () => {
                         <Text style={styles.errorText}>{error}</Text>
                     </View>
                 ) : (
-                    <ImageBackground style={styles.background} source={defaultImage} contentFit={"cover"} blurRadius={1}>
+                    <ImageBackground
+                        style={styles.background}
+                        source={defaultImage}
+                        contentFit={"cover"}
+                        blurRadius={1}
+                    >
                         <ScrollView contentContainerStyle={styles.content}>
                             <TournamentDetailsHeader text={data?.name}/>
                             <View style={styles.contentRow}>
@@ -130,6 +162,7 @@ const TournamentDetails = () => {
                             {shouldShowJoinButton && (
                                 <ThemedButton title={"Join Tournament"} onPress={onJoinTournamentPress} />
                             )}
+                            <TournamentDetailsCategories categories={categoriesWithCount}/>
                             <TournamentDetailsDescription description={data?.description}/>
                         </ScrollView>
                     </ImageBackground>

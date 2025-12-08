@@ -5,6 +5,7 @@ const TABLE = 'competitors' as const;
 export type CompetitorRow = {
     user_id?: string;
     tournament_id?: string;
+    category_id?: string;
 };
 
 export async function createCompetitor(payload: CompetitorRow): Promise<CompetitorRow> {
