@@ -4,29 +4,22 @@ import ThemedView from "@/components/themed-view";
 import ThemedTextButton from "@/components/themed-text-button";
 import {StyleSheet} from "react-native";
 
-const TournamentDetailsTopAppBar = () => {
+const SimpleTopAppBar = () => {
     const router = useRouter();
     const onBack = () => {
         router.back();
     }
 
-    const onBrackets = () => {
-        router.push('/tournament-brackets');
-    };
-
     return (
         <ThemedView style={styles.container}>
             <ThemedTextButton onPress={onBack} title={"Back"}/>
-            <ThemedTextButton onPress={onBrackets} title={"Brackets"}/>
         </ThemedView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        alignItems: 'flex-start',
         width: '100%',
         paddingHorizontal: 16,
         paddingTop: 8,
@@ -34,4 +27,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TournamentDetailsTopAppBar;
+export default SimpleTopAppBar;
