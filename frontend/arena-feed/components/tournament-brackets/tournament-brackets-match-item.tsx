@@ -16,9 +16,12 @@ const TournamentBracketsMatchItem = ({lightColor, darkColor, firstCompetitorName
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'surface');
     return (
         <View style={[{backgroundColor}, styles.container]}>
-            <ThemedText style={styles.text}>
-                {firstCompetitorName ?? 'Competitor 1'}
-            </ThemedText>
+            <View style={styles.nameContainer}>
+                <ThemedText style={styles.text} numberOfLines={1}>
+                    {firstCompetitorName ?? 'Competitor 1'}
+                </ThemedText>
+            </View>
+
             <View style={styles.scoreContainer}>
                 <ThemedText style={styles.text}>
                     {firstCompetitorScore ?? '0'}
@@ -28,9 +31,12 @@ const TournamentBracketsMatchItem = ({lightColor, darkColor, firstCompetitorName
                     {secondCompetitorScore ?? '0'}
                 </ThemedText>
             </View>
-            <ThemedText style={styles.text}>
-                {secondCompetitorName ?? 'Competitor 2'}
-            </ThemedText>
+
+            <View style={styles.nameContainer}>
+                <ThemedText style={[styles.text, {textAlign: 'right'}]} numberOfLines={1}>
+                    {secondCompetitorName ?? 'Competitor 2'}
+                </ThemedText>
+            </View>
         </View>
     );
 };
@@ -41,15 +47,20 @@ const styles = StyleSheet.create({
         margin: 8,
         padding: 8,
         alignItems: "center",
-        justifyContent: "space-between",
+    },
+    nameContainer: {
+        flex: 1,
     },
     scoreContainer: {
+        flex: 1,
         flexDirection: "row",
-        gap: 8
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 8,
     },
     text: {
         fontWeight: "bold",
-    }
+    },
 });
 
 export default TournamentBracketsMatchItem;

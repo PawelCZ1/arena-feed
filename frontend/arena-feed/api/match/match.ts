@@ -160,3 +160,52 @@ export const listMatchesWithCompetitorsByCategory = async (
         };
     });
 };
+
+export type GetMatchesForCategoryRow = {
+    first_competitor_score: number;
+    second_competitor_score: number;
+    first_competitor_name: string | null;
+    second_competitor_name: string | null;
+};
+
+// surowy wynik funkcji (tylko punkty + imiona/nazwiska)
+export const getMatchesForCategoryViaRpc = async (
+    categoryId: number,
+): Promise<GetMatchesForCategoryRow[]> => {
+    const { data, error } = await supabase.rpc(
+        "get_matches_for_category",
+        { p_category_id: categoryId },
+    );
+
+    if (error) {
+        throw error;
+    }
+    return (data ?? []) as GetMatchesForCategoryRow[];
+};
+
+
+export type MatchScoreWithNamesDto = {
+    firstCompetitorScore: number;
+    secondCompetitorScore: number;
+    firstCompetitorName: string | null;
+    secondCompetitorName: string | null;
+};
+
+export const mapGetMatchesForCategoryToDto = (
+    rows: GetMatchesForCategoryRow[],
+): MatchScoreWithNamesDto[] => {
+    return rows.map((row) => ({
+        firstCompetitorScore: row.first_competitor_score,
+        secondCompetitorScore: row.second_competitor_score,
+        firstCompetitorName: row.first_competitor_name,
+        secondCompetitorName: row.second_competitor_name,
+    }));
+};
+
+export const listMatchScoresWithNamesByCategoryViaRpc = async (
+    categoryId: number,
+): Promise<MatchScoreWithNamesDto[]> => {
+    const rows = await getMatchesForCategoryViaRpc(categoryId);
+    return mapGetMatchesForCategoryToDto(rows);
+};
+

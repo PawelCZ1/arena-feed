@@ -6,7 +6,10 @@ import TournamentBracketsHeader from "@/components/tournament-brackets/tournamen
 import TournamentBracketsDropdown from "@/components/tournament-brackets/tournament-brackets-dropdown";
 import TournamentBracketsMatchItem from "@/components/tournament-brackets/tournament-brackets-match-item";
 import { getCategoriesByTournamentId } from "@/api/category/category";
-import { listMatchesWithCompetitorsByCategory, MatchWithCompetitors } from "@/api/match/match";
+import {
+    listMatchScoresWithNamesByCategoryViaRpc,
+    MatchScoreWithNamesDto,
+} from "@/api/match/match";
 import { useLocalSearchParams } from "expo-router";
 
 type Category = {
@@ -19,7 +22,7 @@ type Params = { id: string };
 const TournamentBrackets = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | undefined>(undefined);
-    const [matches, setMatches] = useState<MatchWithCompetitors[]>([]);
+    const [matches, setMatches] = useState<MatchScoreWithNamesDto[]>([]);
     const [loadingCategories, setLoadingCategories] = useState(false);
     const [loadingMatches, setLoadingMatches] = useState(false);
 
@@ -46,8 +49,8 @@ const TournamentBrackets = () => {
         async (categoryId: string) => {
             try {
                 setLoadingMatches(true);
-                const data = await listMatchesWithCompetitorsByCategory(
-                    Number(categoryId), // category_id w bazie to number
+                const data = await listMatchScoresWithNamesByCategoryViaRpc(
+                    Number(categoryId),
                 );
                 setMatches(data);
             } catch (e) {
@@ -73,7 +76,7 @@ const TournamentBrackets = () => {
         setSelectedCategoryId(categoryId);
     };
 
-    const renderItem = ({ item }: { item: MatchWithCompetitors }) => (
+    const renderItem = ({ item, index }: { item: MatchScoreWithNamesDto; index: number }) => (
         <TournamentBracketsMatchItem
             firstCompetitorName={item.firstCompetitorName}
             secondCompetitorName={item.secondCompetitorName}
@@ -104,7 +107,7 @@ const TournamentBrackets = () => {
             ) : (
                 <FlatList
                     data={matches}
-                    keyExtractor={(item) => String(item.id)}
+                    keyExtractor={(_, index) => String(index)}
                     renderItem={renderItem}
                     ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
                 />

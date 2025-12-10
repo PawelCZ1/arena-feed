@@ -46,9 +46,9 @@ const TournamentBracketsDropdown = ({categories, onSelectCategory}: Props) => {
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                    setValue(item.value);
+                    setValue(item.id);
                     setIsFocus(false);
-                    onSelectCategory(item.value);
+                    onSelectCategory(item.id);
                 }}
             />
         </View>
