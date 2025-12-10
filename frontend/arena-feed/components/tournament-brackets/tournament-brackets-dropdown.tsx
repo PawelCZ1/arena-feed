@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -13,8 +13,16 @@ interface Props {
 }
 
 const TournamentBracketsDropdown = ({categories, onSelectCategory}: Props) => {
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState<string | null>(null);
     const [isFocus, setIsFocus] = useState(false);
+
+    useEffect(() => {
+        if (categories && categories.length > 0 && value === null) {
+            const firstId = categories[0].id;
+            setValue(firstId);
+            onSelectCategory(firstId);
+        }
+    }, [categories, value, onSelectCategory]);
 
     const renderLabel = () => {
         if (value || isFocus) {
