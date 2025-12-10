@@ -7,9 +7,10 @@ import {TournamentRow} from "@/api/tournament/tournament";
 
 interface Props {
     id: string;
+    state: string;
 }
 
-const TournamentDetailsTopAppBar = ({id}: Props) => {
+const TournamentDetailsTopAppBar = ({id, state}: Props) => {
     const router = useRouter();
     const onBack = () => {
         router.back();
@@ -22,8 +23,16 @@ const TournamentDetailsTopAppBar = ({id}: Props) => {
         });
     };
 
+    if (state === "New") {
+        return (
+            <ThemedView style={styles.newContainer}>
+                <ThemedTextButton onPress={onBack} title={"Back"}/>
+            </ThemedView>
+        );
+    }
+
     return (
-        <ThemedView style={styles.container}>
+        <ThemedView style={styles.bracketsContainer}>
             <ThemedTextButton onPress={onBack} title={"Back"}/>
             <ThemedTextButton onPress={onBrackets} title={"Brackets"}/>
         </ThemedView>
@@ -31,10 +40,17 @@ const TournamentDetailsTopAppBar = ({id}: Props) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
+    bracketsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingTop: 8,
+        paddingBottom: 16,
+    },
+    newContainer: {
+        alignItems: 'flex-start',
         width: '100%',
         paddingHorizontal: 16,
         paddingTop: 8,
