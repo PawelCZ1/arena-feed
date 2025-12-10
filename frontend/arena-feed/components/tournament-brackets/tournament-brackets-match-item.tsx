@@ -6,10 +6,10 @@ import {ThemedText} from "@/components/themed-text";
 interface Props {
     lightColor?: string;
     darkColor?: string;
-    firstCompetitorName?: string;
-    secondCompetitorName?: string;
-    firstCompetitorScore?: number;
-    secondCompetitorScore?: number;
+    firstCompetitorName?: string | null;
+    secondCompetitorName?: string | null;
+    firstCompetitorScore?: number | null;
+    secondCompetitorScore?: number | null;
 }
 
 const TournamentBracketsMatchItem = ({lightColor, darkColor, firstCompetitorName, secondCompetitorName, firstCompetitorScore, secondCompetitorScore}: Props) => {

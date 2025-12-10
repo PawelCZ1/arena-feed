@@ -57,7 +57,7 @@ export default function RootLayout() {
                     }}
                 />
                 <Stack.Screen
-                    name="tournament-brackets"
+                    name="tournament-brackets/[id]"
                     options={{
                         animation: 'fade'
                     }}

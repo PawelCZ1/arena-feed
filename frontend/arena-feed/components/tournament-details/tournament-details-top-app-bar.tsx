@@ -3,15 +3,23 @@ import {useRouter} from "expo-router";
 import ThemedView from "@/components/themed-view";
 import ThemedTextButton from "@/components/themed-text-button";
 import {StyleSheet} from "react-native";
+import {TournamentRow} from "@/api/tournament/tournament";
 
-const TournamentDetailsTopAppBar = () => {
+interface Props {
+    id: string;
+}
+
+const TournamentDetailsTopAppBar = ({id}: Props) => {
     const router = useRouter();
     const onBack = () => {
         router.back();
     }
 
     const onBrackets = () => {
-        router.push('/tournament-brackets');
+        router.push({
+            pathname: '/tournament-brackets/[id]',
+            params: { id: String(id) },
+        });
     };
 
     return (
