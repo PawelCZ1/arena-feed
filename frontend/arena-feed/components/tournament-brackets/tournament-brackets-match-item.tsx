@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from "react-native";
 import {useThemeColor} from "@/hooks/use-theme-color";
 import {ThemedText} from "@/components/themed-text";
+import {HorizontalDivider} from "@/components/horizontal-divider";
 
 interface Props {
     lightColor?: string;
@@ -10,32 +11,72 @@ interface Props {
     secondCompetitorName?: string | null;
     firstCompetitorScore?: number | null;
     secondCompetitorScore?: number | null;
+    state?: 'New' | 'InProgress' | 'Finished';
 }
 
-const TournamentBracketsMatchItem = ({lightColor, darkColor, firstCompetitorName, secondCompetitorName, firstCompetitorScore, secondCompetitorScore}: Props) => {
+const TournamentBracketsMatchItem = ({
+                                         lightColor,
+                                         darkColor,
+                                         firstCompetitorName,
+                                         secondCompetitorName,
+                                         firstCompetitorScore,
+                                         secondCompetitorScore,
+                                         state = 'New',
+                                     }: Props) => {
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'surface');
+    const successColor = useThemeColor({}, 'success'); // dopasuj do swojego motywu
+    const round = 1;
+
+    const firstScore = firstCompetitorScore ?? 0;
+    const secondScore = secondCompetitorScore ?? 0;
+
+    const isFinished = state === 'Finished';
+    const firstIsWinner = isFinished && firstScore > secondScore;
+    const secondIsWinner = isFinished && secondScore > firstScore;
+
     return (
         <View style={[{backgroundColor}, styles.container]}>
-            <View style={styles.nameContainer}>
-                <ThemedText style={styles.text} numberOfLines={1}>
-                    {firstCompetitorName ?? 'Competitor 1'}
-                </ThemedText>
-            </View>
+            <ThemedText type={"subtitle"}>{`Round: ` + round}</ThemedText>
+            <HorizontalDivider thickness={1} />
+            <View style={styles.rowContainer}>
+                <View style={styles.nameContainer}>
+                    <ThemedText
+                        style={[
+                            styles.text,
+                            firstIsWinner && {
+                                color: successColor
+                            },
+                        ]}
+                        numberOfLines={1}
+                    >
+                        {firstCompetitorName ?? 'Competitor 1'}
+                    </ThemedText>
+                </View>
 
-            <View style={styles.scoreContainer}>
-                <ThemedText style={styles.text}>
-                    {firstCompetitorScore ?? '0'}
-                </ThemedText>
-                <ThemedText style={styles.text}>:</ThemedText>
-                <ThemedText style={styles.text}>
-                    {secondCompetitorScore ?? '0'}
-                </ThemedText>
-            </View>
+                <View style={styles.scoreContainer}>
+                    <ThemedText style={styles.text}>
+                        {firstScore}
+                    </ThemedText>
+                    <ThemedText style={styles.text}>:</ThemedText>
+                    <ThemedText style={styles.text}>
+                        {secondScore}
+                    </ThemedText>
+                </View>
 
-            <View style={styles.nameContainer}>
-                <ThemedText style={[styles.text, {textAlign: 'right'}]} numberOfLines={1}>
-                    {secondCompetitorName ?? 'Competitor 2'}
-                </ThemedText>
+                <View style={styles.nameContainer}>
+                    <ThemedText
+                        style={[
+                            styles.text,
+                            {textAlign: 'right'},
+                            secondIsWinner && {
+                                color: successColor
+                            },
+                        ]}
+                        numberOfLines={1}
+                    >
+                        {secondCompetitorName ?? 'Competitor 2'}
+                    </ThemedText>
+                </View>
             </View>
         </View>
     );
@@ -43,10 +84,22 @@ const TournamentBracketsMatchItem = ({lightColor, darkColor, firstCompetitorName
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: "row",
-        margin: 8,
-        padding: 8,
         alignItems: "center",
+        justifyContent: "center",
+        margin: 16,
+        padding: 16,
+        gap: 12
+    },
+    rowContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    secondRowContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 32,
+        width: "100%",
     },
     nameContainer: {
         flex: 1,
@@ -60,6 +113,10 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: "bold",
+    },
+    stateRoundContainer: {
+        flexDirection: "row",
+        gap: 4,
     },
 });
 
