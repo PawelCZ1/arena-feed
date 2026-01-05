@@ -11,15 +11,18 @@ import {
     MatchScoreWithNamesDto,
 } from "@/api/match/match";
 import { useLocalSearchParams } from "expo-router";
+import TournamentBracketsState from "@/components/tournament-brackets/tournament-brackets-state";
 
 type Category = {
     id: string;
     name: string;
 };
 
+type TournamentState = "New" | "Soon" | "Ongoing" | "Finished";
+
 type MatchState = "New" | "InProgress" | "Finished";
 
-type Params = { id: string };
+type Params = { id: string, state: TournamentState };
 
 const TournamentBrackets = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -30,6 +33,7 @@ const TournamentBrackets = () => {
 
     const params = useLocalSearchParams<Params>();
     const tournamentId = params.id;
+    const state = params.state;
 
     const loadCategories = useCallback(async () => {
         if (!tournamentId) return;
@@ -108,6 +112,7 @@ const TournamentBrackets = () => {
         <ThemedSafeAreaView>
             <SimpleTopAppBar />
             <TournamentBracketsHeader />
+            <TournamentBracketsState state={state}/>
             <TournamentBracketsDropdown
                 categories={categories}
                 onSelectCategory={onSelectCategory}

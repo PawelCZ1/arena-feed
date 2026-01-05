@@ -5,9 +5,11 @@ import ThemedTextButton from "@/components/themed-text-button";
 import {StyleSheet} from "react-native";
 import {TournamentRow} from "@/api/tournament/tournament";
 
+type TournamentState = "New" | "Soon" | "Ongoing" | "Finished";
+
 interface Props {
     id: string;
-    state: string;
+    state: TournamentState;
 }
 
 const TournamentDetailsTopAppBar = ({id, state}: Props) => {
@@ -19,7 +21,7 @@ const TournamentDetailsTopAppBar = ({id, state}: Props) => {
     const onBrackets = () => {
         router.push({
             pathname: '/tournament-brackets/[id]',
-            params: { id: String(id) },
+            params: { id: String(id), state },
         });
     };
 

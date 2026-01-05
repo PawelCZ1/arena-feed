@@ -19,6 +19,7 @@ import TournamentDetailsCategories from "@/components/tournament-details/tournam
 import {Category, getCategoriesByTournamentId} from "@/api/category/category";
 import defaultImage from '@/assets/images/react-logo.png';
 
+type TournamentState = "New" | "Soon" | "Ongoing" | "Finished";
 
 type Params = {id: string};
 
@@ -149,10 +150,19 @@ const TournamentDetails = () => {
         }));
     }, [categories, participants]);
 
+    const toTournamentState = (value: unknown): TournamentState => {
+        if (value === "New" || value === "Soon" || value === "Ongoing" || value === "Finished") {
+            return value;
+        }
+        return "New";
+    };
+
+    const tournamentState = toTournamentState(data?.state);
+
     return (
         <ThemedSafeAreaView>
             <ThemedView style={styles.container}>
-                <TournamentDetailsTopAppBar id={id} state={data?.state ?? "New"}/>
+                <TournamentDetailsTopAppBar id={id} state={tournamentState}/>
                 {loading ? (
                     <ActivityIndicator/>
                 ) : error ? (
