@@ -17,6 +17,8 @@ type Category = {
     name: string;
 };
 
+type MatchState = "New" | "InProgress" | "Finished";
+
 type Params = { id: string };
 
 const TournamentBrackets = () => {
@@ -76,8 +78,16 @@ const TournamentBrackets = () => {
         setSelectedCategoryId(categoryId);
     };
 
+    const toMatchState = (value: unknown): MatchState => {
+        if (value === "New" || value === "InProgress" || value === "Finished") {
+            return value;
+        }
+        return "New";
+    };
+
     const renderItem = ({ item, index }: { item: MatchScoreWithNamesDto; index: number }) => (
         <TournamentBracketsMatchItem
+            state={toMatchState(item.state)}
             firstCompetitorName={item.firstCompetitorName}
             secondCompetitorName={item.secondCompetitorName}
             firstCompetitorScore={item.firstCompetitorScore}

@@ -162,6 +162,7 @@ export const listMatchesWithCompetitorsByCategory = async (
 };
 
 export type GetMatchesForCategoryRow = {
+    state: string;
     first_competitor_score: number;
     second_competitor_score: number;
     first_competitor_name: string | null;
@@ -185,6 +186,7 @@ export const getMatchesForCategoryViaRpc = async (
 
 
 export type MatchScoreWithNamesDto = {
+    state: string;
     firstCompetitorScore: number;
     secondCompetitorScore: number;
     firstCompetitorName: string | null;
@@ -195,6 +197,7 @@ export const mapGetMatchesForCategoryToDto = (
     rows: GetMatchesForCategoryRow[],
 ): MatchScoreWithNamesDto[] => {
     return rows.map((row) => ({
+        state: row.state,
         firstCompetitorScore: row.first_competitor_score,
         secondCompetitorScore: row.second_competitor_score,
         firstCompetitorName: row.first_competitor_name,
