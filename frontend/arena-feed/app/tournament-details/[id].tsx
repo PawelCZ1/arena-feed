@@ -18,6 +18,7 @@ import {useAuth} from "@/api/auth/auth-provider";
 import TournamentDetailsCategories from "@/components/tournament-details/tournament-details-categories";
 import {Category, getCategoriesByTournamentId} from "@/api/category/category";
 import defaultImage from '@/assets/images/react-logo.png';
+import TournamentDetailsState from "@/components/tournament-details/tournament-details-state";
 
 type TournamentState = "New" | "Soon" | "Ongoing" | "Finished";
 
@@ -40,7 +41,16 @@ const TournamentDetails = () => {
     const [error, setError] = useState<string | null>(null);
     const [hasJoined, setHasJoined] = useState(false);
 
-    const shouldShowJoinButton = !!userId && !hasJoined;
+    const toTournamentState = (value: unknown): TournamentState => {
+        if (value === "New" || value === "Soon" || value === "Ongoing" || value === "Finished") {
+            return value;
+        }
+        return "New";
+    };
+
+    const tournamentState = toTournamentState(data?.state);
+
+    const shouldShowJoinButton = !!userId && !hasJoined && tournamentState === "New";
 
     const onJoinTournamentPress = () => {
         if (!categories.length) {
@@ -150,15 +160,6 @@ const TournamentDetails = () => {
         }));
     }, [categories, participants]);
 
-    const toTournamentState = (value: unknown): TournamentState => {
-        if (value === "New" || value === "Soon" || value === "Ongoing" || value === "Finished") {
-            return value;
-        }
-        return "New";
-    };
-
-    const tournamentState = toTournamentState(data?.state);
-
     return (
         <ThemedSafeAreaView>
             <ThemedView style={styles.container}>
@@ -178,6 +179,7 @@ const TournamentDetails = () => {
                     >
                         <ScrollView contentContainerStyle={styles.content}>
                             <TournamentDetailsHeader text={data?.name}/>
+                            <TournamentDetailsState state={tournamentState}/>
                             <View style={styles.contentRow}>
                                 <TournamentDetailsDate date={data?.date}/>
                                 <TournamentDetailsLocation location={data?.location}/>
