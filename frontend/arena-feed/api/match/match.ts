@@ -212,3 +212,44 @@ export const listMatchScoresWithNamesByCategoryViaRpc = async (
     return mapGetMatchesForCategoryToDto(rows);
 };
 
+type RecentMatchRow = {
+    first_competitor_score: number;
+    second_competitor_score: number;
+    first_competitor_name: string | null;
+    second_competitor_name: string | null;
+};
+
+export type RecentMatchDto = {
+    firstCompetitorScore: number;
+    secondCompetitorScore: number;
+    firstCompetitorName: string | null;
+    secondCompetitorName: string | null;
+};
+
+const mapRecentMatchesToDto = (
+    rows: RecentMatchRow[],
+): RecentMatchDto[] => {
+    return rows.map((row) => ({
+        firstCompetitorScore: row.first_competitor_score,
+        secondCompetitorScore: row.second_competitor_score,
+        firstCompetitorName: row.first_competitor_name,
+        secondCompetitorName: row.second_competitor_name,
+    }));
+};
+
+const getRecentMatchesByUserId = async (userId: string): Promise<RecentMatchRow[]> => {
+    const { data, error } = await supabase.rpc(
+        "get_matches_for_user",
+        { p_user_id: userId },
+    );
+
+    if (error) {
+        throw error;
+    }
+    return (data ?? []) as RecentMatchRow[];
+};
+
+export const listRecentMatchesByUserId = async (userId: string): Promise<RecentMatchDto[]> => {
+    const rows = await getRecentMatchesByUserId(userId);
+    return mapRecentMatchesToDto(rows);
+};

@@ -5,35 +5,30 @@ import TournamentListItem from "@/components/tournaments/tournament-list-item";
 import {supabase} from "@/api/supabase";
 import {getTournamentsByCompetitorId, TournamentRow} from "@/api/tournament/tournament";
 import {useRouter} from "expo-router";
+import TournamentBracketsMatchItem from "@/components/tournament-brackets/tournament-brackets-match-item";
+import {listRecentMatchesByUserId, RecentMatchDto} from "@/api/match/match";
 
 interface Props {
     userId?: string;
 }
 
-const ProfileDetailsRecentTournamentsSection = ({userId}: Props) => {
-    const [recentTournaments, setRecentTournaments] = useState<TournamentRow[]>([]);
+const ProfileDetailsRecentMatchesSection = ({userId}: Props) => {
+    const [recentMatches, setRecentMatches] = useState<RecentMatchDto[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
 
-    const onRecentTournamentPress = (tournament: TournamentRow) => {
-        router.push({
-            pathname: '/tournament-details/[id]',
-            params: { id: String(tournament.id) },
-        });
-    };
 
-    const loadRecentTournaments = useCallback(async () => {
+    const loadRecentMatches = useCallback(async () => {
         if (!userId) {
-            setError("User ID is required to load recent tournaments.");
+            setError("User ID is required to load recent matches.");
             setLoading(false);
             return;
         }
         setLoading(true);
         setError(null);
         try {
-            const fetchedTournaments = await getTournamentsByCompetitorId(userId, 3);
-            setRecentTournaments(fetchedTournaments);
+            const fetchedMatches = await listRecentMatchesByUserId(userId);
+            setRecentMatches(fetchedMatches);
         } catch (e) {
             const message = e instanceof Error ? e.message : "An unexpected error occurred.";
             setError(message);
@@ -43,16 +38,23 @@ const ProfileDetailsRecentTournamentsSection = ({userId}: Props) => {
     }, [userId]);
 
     useEffect(() => {
-        loadRecentTournaments();
-    }, [loadRecentTournaments]);
+        loadRecentMatches();
+    }, [loadRecentMatches]);
 
     return (
         <View style={styles.container}>
             <ThemedText type="subtitle" style={styles.header}>
-                Recent Tournaments
+                Recent Matches
             </ThemedText>
-            {!loading && !error && recentTournaments.map((tournament) => (
-                <TournamentListItem key={tournament.id} name={tournament?.name ?? "No name"} onPress={() => {onRecentTournamentPress(tournament)}} />
+            {!loading && !error && recentMatches.map((match, index) => (
+                <TournamentBracketsMatchItem
+                    key={index}
+                    firstCompetitorName={match.firstCompetitorName}
+                    secondCompetitorName={match.secondCompetitorName}
+                    firstCompetitorScore={match.firstCompetitorScore}
+                    secondCompetitorScore={match.secondCompetitorScore}
+                    state="Finished"
+                />
             ))}
         </View>
     );
@@ -68,4 +70,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProfileDetailsRecentTournamentsSection;
+export default ProfileDetailsRecentMatchesSection;

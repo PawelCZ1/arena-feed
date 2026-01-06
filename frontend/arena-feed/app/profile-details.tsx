@@ -7,8 +7,8 @@ import ProfileDetailsHeader from "@/components/profile-details/profile-details-h
 import ProfileDetailsBioSection from "@/components/profile-details/profile-details-bio-section";
 import {ScrollView, StyleSheet, View} from "react-native";
 import ProfileDetailsStatsSection from "@/components/profile-details/profile-details-stats-section";
-import ProfileDetailsRecentTournamentsSection
-    from "@/components/profile-details/profile-details-recent-tournaments-section";
+import ProfileDetailsRecentMatchesSection
+    from "@/components/profile-details/profile-details-recent-matches-section";
 import TournamentList from "@/components/tournaments/tournament-list";
 
 const ProfileDetails = () => {
@@ -23,7 +23,7 @@ const ProfileDetails = () => {
                     <ProfileDetailsHeader username={profile?.username}/>
                     <ProfileDetailsBioSection firstName={profile?.firstName} lastName={profile?.lastName} birthdate={profile?.birthDate}/>
                     <ProfileDetailsStatsSection/>
-                    <ProfileDetailsRecentTournamentsSection userId={user?.id}/>
+                    <ProfileDetailsRecentMatchesSection userId={user?.id}/>
                 </View>
             </ScrollView>
         </ThemedSafeAreaView>
