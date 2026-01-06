@@ -41,12 +41,14 @@ const ProfileDetailsRecentMatchesSection = ({userId}: Props) => {
         loadRecentMatches();
     }, [loadRecentMatches]);
 
+    const isEmpty = recentMatches.length === 0;
+
     return (
         <View style={styles.container}>
             <ThemedText type="subtitle" style={styles.header}>
                 Recent Matches
             </ThemedText>
-            {!loading && !error && recentMatches.map((match, index) => (
+            {!loading && !error && !isEmpty && recentMatches.map((match, index) => (
                 <TournamentBracketsMatchItem
                     key={index}
                     firstCompetitorName={match.firstCompetitorName}
@@ -56,6 +58,11 @@ const ProfileDetailsRecentMatchesSection = ({userId}: Props) => {
                     state="Finished"
                 />
             ))}
+            {!loading && !error && isEmpty && (
+                <ThemedText style={styles.empty}>
+                    No recent matches found
+                </ThemedText>
+            )}
         </View>
     );
 };
@@ -67,6 +74,11 @@ const styles = StyleSheet.create({
     },
     header: {
         paddingBottom: 16,
+    },
+    empty: {
+        fontStyle: "italic",
+        textAlign: "center",
+        width: "100%"
     }
 });
 
