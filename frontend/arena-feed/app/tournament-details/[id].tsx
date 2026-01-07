@@ -163,7 +163,7 @@ const TournamentDetails = () => {
     return (
         <ThemedSafeAreaView>
             <ThemedView style={styles.container}>
-                <TournamentDetailsTopAppBar id={id} state={tournamentState}/>
+                <TournamentDetailsTopAppBar id={id} state={tournamentState} name={data?.name ?? ""}/>
                 {loading ? (
                     <ActivityIndicator/>
                 ) : error ? (

@@ -10,9 +10,10 @@ type TournamentState = "New" | "Soon" | "Ongoing" | "Finished";
 interface Props {
     id: string;
     state: TournamentState;
+    name: string;
 }
 
-const TournamentDetailsTopAppBar = ({id, state}: Props) => {
+const TournamentDetailsTopAppBar = ({id, state, name}: Props) => {
     const router = useRouter();
     const onBack = () => {
         router.back();
@@ -21,7 +22,7 @@ const TournamentDetailsTopAppBar = ({id, state}: Props) => {
     const onBrackets = () => {
         router.push({
             pathname: '/tournament-brackets/[id]',
-            params: { id: String(id), state },
+            params: { id: String(id), state, name: name },
         });
     };
 

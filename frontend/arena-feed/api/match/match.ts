@@ -216,6 +216,8 @@ export const listMatchScoresWithNamesByCategoryViaRpc = async (
 };
 
 type RecentMatchRow = {
+    tournament_id: string | number;
+    tournament_state: string;
     tournament_name: string;
     round_number: number;
     first_competitor_score: number;
@@ -225,6 +227,8 @@ type RecentMatchRow = {
 };
 
 export type RecentMatchDto = {
+    tournamentId: string | number;
+    tournamentState: string;
     tournamentName: string;
     roundNumber: number;
     firstCompetitorScore: number;
@@ -237,6 +241,8 @@ const mapRecentMatchesToDto = (
     rows: RecentMatchRow[],
 ): RecentMatchDto[] => {
     return rows.map((row) => ({
+        tournamentId: row.tournament_id,
+        tournamentState: row.tournament_state,
         tournamentName: row.tournament_name,
         roundNumber: row.round_number,
         firstCompetitorScore: row.first_competitor_score,

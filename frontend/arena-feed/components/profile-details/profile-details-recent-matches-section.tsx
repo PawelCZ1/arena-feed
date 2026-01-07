@@ -13,11 +13,19 @@ interface Props {
     userId?: string;
 }
 
+type TournamentState = "New" | "Soon" | "Ongoing" | "Finished";
+
 const ProfileDetailsRecentMatchesSection = ({userId}: Props) => {
     const [recentMatches, setRecentMatches] = useState<RecentMatchDto[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const toTournamentState = (value: unknown): TournamentState => {
+        if (value === "New" || value === "Soon" || value === "Ongoing" || value === "Finished") {
+            return value;
+        }
+        return "New";
+    };
 
     const loadRecentMatches = useCallback(async () => {
         if (!userId) {
@@ -52,6 +60,8 @@ const ProfileDetailsRecentMatchesSection = ({userId}: Props) => {
             {!loading && !error && !isEmpty && recentMatches.map((match, index) => (
                 <ProfileDetailsRecentMatchItem
                     key={index}
+                    tournamentId={match.tournamentId}
+                    tournamentState={toTournamentState(match.tournamentState)}
                     tournamentName={match.tournamentName}
                     round={match.roundNumber}
                     firstCompetitorName={match.firstCompetitorName}
