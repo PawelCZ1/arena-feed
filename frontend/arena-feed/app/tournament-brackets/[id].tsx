@@ -91,6 +91,7 @@ const TournamentBrackets = () => {
 
     const renderItem = ({ item, index }: { item: MatchScoreWithNamesDto; index: number }) => (
         <TournamentBracketsMatchItem
+            round={item.roundNumber}
             state={toMatchState(item.state)}
             firstCompetitorName={item.firstCompetitorName}
             secondCompetitorName={item.secondCompetitorName}

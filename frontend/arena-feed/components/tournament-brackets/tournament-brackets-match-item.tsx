@@ -7,6 +7,7 @@ import {HorizontalDivider} from "@/components/horizontal-divider";
 interface Props {
     lightColor?: string;
     darkColor?: string;
+    round?: number;
     firstCompetitorName?: string | null;
     secondCompetitorName?: string | null;
     firstCompetitorScore?: number | null;
@@ -22,10 +23,10 @@ const TournamentBracketsMatchItem = ({
                                          firstCompetitorScore,
                                          secondCompetitorScore,
                                          state = 'New',
+                                         round = 1
                                      }: Props) => {
     const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'surface');
     const successColor = useThemeColor({}, 'success'); // dopasuj do swojego motywu
-    const round = 1;
 
     const firstScore = firstCompetitorScore ?? 0;
     const secondScore = secondCompetitorScore ?? 0;
