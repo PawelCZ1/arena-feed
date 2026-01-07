@@ -7,6 +7,7 @@ import {getTournamentsByCompetitorId, TournamentRow} from "@/api/tournament/tour
 import {useRouter} from "expo-router";
 import TournamentBracketsMatchItem from "@/components/tournament-brackets/tournament-brackets-match-item";
 import {listRecentMatchesByUserId, RecentMatchDto} from "@/api/match/match";
+import ProfileDetailsRecentMatchItem from "@/components/profile-details/profile-details-recent-match-item";
 
 interface Props {
     userId?: string;
@@ -49,8 +50,10 @@ const ProfileDetailsRecentMatchesSection = ({userId}: Props) => {
                 Recent Matches
             </ThemedText>
             {!loading && !error && !isEmpty && recentMatches.map((match, index) => (
-                <TournamentBracketsMatchItem
+                <ProfileDetailsRecentMatchItem
                     key={index}
+                    tournamentName={match.tournamentName}
+                    round={match.roundNumber}
                     firstCompetitorName={match.firstCompetitorName}
                     secondCompetitorName={match.secondCompetitorName}
                     firstCompetitorScore={match.firstCompetitorScore}

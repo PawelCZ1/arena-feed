@@ -216,6 +216,8 @@ export const listMatchScoresWithNamesByCategoryViaRpc = async (
 };
 
 type RecentMatchRow = {
+    tournament_name: string;
+    round_number: number;
     first_competitor_score: number;
     second_competitor_score: number;
     first_competitor_name: string | null;
@@ -223,6 +225,8 @@ type RecentMatchRow = {
 };
 
 export type RecentMatchDto = {
+    tournamentName: string;
+    roundNumber: number;
     firstCompetitorScore: number;
     secondCompetitorScore: number;
     firstCompetitorName: string | null;
@@ -233,6 +237,8 @@ const mapRecentMatchesToDto = (
     rows: RecentMatchRow[],
 ): RecentMatchDto[] => {
     return rows.map((row) => ({
+        tournamentName: row.tournament_name,
+        roundNumber: row.round_number,
         firstCompetitorScore: row.first_competitor_score,
         secondCompetitorScore: row.second_competitor_score,
         firstCompetitorName: row.first_competitor_name,
@@ -245,7 +251,6 @@ const getRecentMatchesByUserId = async (userId: string): Promise<RecentMatchRow[
         "get_matches_for_user",
         { p_user_id: userId },
     );
-
     if (error) {
         throw error;
     }
