@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useAuth} from "@/api/auth/auth-provider";
-import {useUserProfile} from "@/api/users/user";
+import {listStatsForUser, UserStatsDto, useUserProfile} from "@/api/users/user";
 import ThemedSafeAreaView from "@/components/themed-safe-area-view";
 import ProfileDetailsTopAppBar from "@/components/profile-details/profile-details-top-app-bar";
 import ProfileDetailsHeader from "@/components/profile-details/profile-details-header";
@@ -15,6 +15,27 @@ const ProfileDetails = () => {
     const { user, session } = useAuth();
     const {profile} = useUserProfile(user?.id ?? null);
 
+    const [stats, setStats] = useState<UserStatsDto | null>(null);
+
+    const loadStats = async () => {
+        if (!user?.id) {
+            setStats(null);
+            return;
+        }
+
+        try {
+            const response = await listStatsForUser(user.id);
+            setStats(response);
+        } catch (error) {
+            console.error("Failed to load user stats:", error);
+            setStats(null);
+        }
+    };
+
+    useEffect(() => {
+        void loadStats();
+    }, [user?.id, loadStats]);
+
     return (
         <ThemedSafeAreaView>
             <ProfileDetailsTopAppBar/>
@@ -22,7 +43,7 @@ const ProfileDetails = () => {
                 <View style={styles.content}>
                     <ProfileDetailsHeader username={profile?.username}/>
                     <ProfileDetailsBioSection firstName={profile?.firstName} lastName={profile?.lastName} birthdate={profile?.birthDate}/>
-                    <ProfileDetailsStatsSection/>
+                    <ProfileDetailsStatsSection total={stats?.total} wins={stats?.wins} losses={stats?.losses}/>
                     <ProfileDetailsRecentMatchesSection userId={user?.id}/>
                 </View>
             </ScrollView>

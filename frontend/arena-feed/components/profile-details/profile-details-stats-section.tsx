@@ -3,16 +3,21 @@ import {StyleSheet, View} from "react-native";
 import {ThemedText} from "@/components/themed-text";
 import ProfileDetailsSectionRow from "@/components/profile-details/profile-details-section-row";
 
-const ProfileDetailsStatsSection = () => {
+interface Props {
+    total?: number;
+    wins?: number;
+    losses?: number;
+}
+
+const ProfileDetailsStatsSection = ({total, wins, losses}: Props) => {
     return (
         <View style={styles.container}>
             <ThemedText type="subtitle">
                 Stats
             </ThemedText>
-            <ProfileDetailsSectionRow name="Total" value={"0"}/>
-            <ProfileDetailsSectionRow name="Wins" value={"0"}/>
-            <ProfileDetailsSectionRow name="Loses" value={"0"}/>
-            <ProfileDetailsSectionRow name="Draws" value={"0"}/>
+            <ProfileDetailsSectionRow name="Total" value={total?.toString() ?? "0"}/>
+            <ProfileDetailsSectionRow name="Wins" value={wins?.toString() ?? "0"}/>
+            <ProfileDetailsSectionRow name="Losses" value={losses?.toString() ?? "0"}/>
         </View>
     );
 };

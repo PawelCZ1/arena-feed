@@ -63,3 +63,44 @@ export function useUserProfile(userId?: string | null) {
 
     return { profile, loading };
 }
+
+type UserStatsRow = {
+    total: number;
+    wins: number;
+    losses: number;
+};
+
+export type UserStatsDto = {
+    total: number;
+    wins: number;
+    losses: number;
+};
+
+const fromUserStatsRowToDto = (row?: UserStatsRow | null): UserStatsDto => ({
+    total: row?.total ?? 0,
+    wins: row?.wins ?? 0,
+    losses: row?.losses ?? 0,
+});
+
+const getStatsForUser = async (userId: string): Promise<UserStatsRow | null> => {
+    const { data, error } = await supabase.rpc("get_stats_for_user", {
+        p_user_id: userId,
+    });
+
+    if (error) throw error;
+
+    const row = Array.isArray(data) ? data[0] : data;
+
+    if (!row) return null;
+
+    return {
+        total: row.total ?? 0,
+        wins: row.wins ?? 0,
+        losses: row.losses ?? 0,
+    } as UserStatsRow;
+};
+
+export const listStatsForUser = async (userId: string): Promise<UserStatsDto> => {
+    const row = await getStatsForUser(userId);
+    return fromUserStatsRowToDto(row);
+};
