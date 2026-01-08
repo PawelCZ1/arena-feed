@@ -33,6 +33,14 @@ const CreateTournament = () => {
     const router = useRouter();
 
     const onAddCategory = (name: string) => {
+        if (name.trim() === "") {
+            Alert.alert("Category name cannot be empty.");
+            return;
+        }
+        if (categories.length > 10) {
+            Alert.alert("You can add up to 10 categories only.");
+            return;
+        }
         setCategories((prevCategories) => [...prevCategories, name]);
     };
 
@@ -53,6 +61,19 @@ const CreateTournament = () => {
     const handleCreate = async () => {
         if (name.trim() === "" || description.trim() === "" || location.trim() === "") {
             Alert.alert("Please fill in all fields.");
+            return;
+        }
+
+        if (categories.length === 0) {
+            Alert.alert("Please add at least one category.");
+            return;
+        }
+
+        const minimumDate = new Date();
+        minimumDate.setDate(minimumDate.getDate() + 8);
+
+        if (date < minimumDate) {
+            Alert.alert("Please set date at least 8 days in the future.");
             return;
         }
 
