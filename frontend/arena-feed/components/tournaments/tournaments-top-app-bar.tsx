@@ -1,11 +1,15 @@
 import React from 'react';
 import ThemedView from "@/components/themed-view";
-import {StyleSheet, View} from "react-native";
+import {Alert, StyleSheet, View} from "react-native";
 import {useRouter} from "expo-router";
 import ThemedTextButton from "@/components/themed-text-button";
+import {useAuth} from "@/api/auth/auth-provider";
+import {useUserProfile} from "@/api/users/user";
 
 const TournamentsTopAppBar = () => {
     const router = useRouter();
+    const { session, user, signOut } = useAuth();
+    const { profile } = useUserProfile(user?.id ?? null);
     const onBack = () => {
         router.back();
     }
@@ -16,12 +20,39 @@ const TournamentsTopAppBar = () => {
         router.push('/register');
     };
 
+    const onLogout = async () => {
+        Alert.alert("Logout", "Are you sure you want to logout?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Logout", style: "destructive",
+                    onPress: async () => {
+                        await signOut();
+                        router.replace('/');
+                    }
+                }
+            ]
+        );
+    };
+    const onProfileClick = () => {
+        router.push('/profile-details');
+    };
+
     return (
         <ThemedView style={styles.container}>
             <ThemedTextButton onPress={onBack} title={"Back"}/>
             <View style={styles.buttonContainer}>
-                <ThemedTextButton onPress={onLogin} title={"Login"}/>
-                <ThemedTextButton onPress={onRegister} title={"Register"}/>
+                {!session ? (
+                    <>
+                        <ThemedTextButton onPress={onLogin} title={"Login"}/>
+                        <ThemedTextButton onPress={onRegister} title={"Register"}/>
+                    </>
+                ) : (
+                    <>
+                        <ThemedTextButton onPress={onLogout} title={"Logout"}/>
+                        <ThemedTextButton onPress={onProfileClick} title={profile?.username ?? "Null"}/>
+                    </>
+                )}
             </View>
         </ThemedView>
     );

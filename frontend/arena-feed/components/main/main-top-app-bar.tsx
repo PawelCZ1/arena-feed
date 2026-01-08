@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import ThemedView from "@/components/themed-view";
 import {useRouter} from "expo-router";
 import ThemedTextButton from "@/components/themed-text-button";
@@ -14,8 +14,18 @@ const MainTopAppBar = () => {
         router.push('/login');
     };
     const onLogout = async () => {
-        await signOut();
-        router.replace('/');
+        Alert.alert("Logout", "Are you sure you want to logout?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Logout", style: "destructive",
+                    onPress: async () => {
+                        await signOut();
+                        router.replace('/');
+                    }
+                }
+            ]
+        );
     };
     const onProfileClick = () => {
         router.push('/profile-details');
