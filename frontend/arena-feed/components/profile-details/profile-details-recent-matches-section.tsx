@@ -60,6 +60,7 @@ const ProfileDetailsRecentMatchesSection = ({userId}: Props) => {
             {!loading && !error && !isEmpty && recentMatches.map((match, index) => (
                 <ProfileDetailsRecentMatchItem
                     key={index}
+                    categoryName={match.categoryName}
                     tournamentId={match.tournamentId}
                     tournamentState={toTournamentState(match.tournamentState)}
                     tournamentName={match.tournamentName}

@@ -8,6 +8,7 @@ import {useRouter} from "expo-router";
 interface Props {
     lightColor?: string;
     darkColor?: string;
+    categoryName?: string;
     tournamentId?: string | number;
     tournamentState?: TournamentState;
     tournamentName?: string;
@@ -25,6 +26,7 @@ const ProfileDetailsRecentMatchItem = (
     {
         lightColor,
         darkColor,
+        categoryName,
         tournamentId,
         tournamentState,
         tournamentName,
@@ -59,6 +61,8 @@ const ProfileDetailsRecentMatchItem = (
         <TouchableOpacity onPress={onItemPress}>
             <View style={[{backgroundColor}, styles.container]}>
                 <ThemedText type={"subtitle"}>{`Tournament: ` + tournamentName}</ThemedText>
+                <HorizontalDivider thickness={1} />
+                <ThemedText type={"subtitle"}>{`Category: ` + categoryName}</ThemedText>
                 <HorizontalDivider thickness={1} />
                 <ThemedText type={"subtitle"}>{`Round: ` + round}</ThemedText>
                 <HorizontalDivider thickness={1} />
