@@ -42,7 +42,7 @@ const TournamentList = () => {
             offsetRef.current = nextOffset + (page?.length ?? 0);
             setTotal(count ?? 0);
         } catch (e: any) {
-            setError(e?.message ?? 'Error with loading tournaments.');
+            setError('We couldn\'t load tournaments. Please check your internet connection and try again.');
         } finally {
             loadingRef.current = false;
             if (reset) setRefreshing(false);

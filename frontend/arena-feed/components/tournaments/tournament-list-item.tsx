@@ -27,7 +27,7 @@ const TournamentListItem = ({ name, description, date, onPress, lightColor, dark
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={[{ backgroundColor }, styles.container]}>
-                <Image style={styles.image} source={defaultImage} contentFit="cover" />
+                {/*<Image style={styles.image} source={defaultImage} contentFit="cover" />*/}
                 <View style={styles.content}>
                     <ThemedText type={'subtitle'} numberOfLines={1} ellipsizeMode="tail">
                         {name}

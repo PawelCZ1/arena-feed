@@ -49,7 +49,6 @@ const MainTopAppBar = () => {
                     </>
                 )}
             </View>
-
         </ThemedView>
     );
 };

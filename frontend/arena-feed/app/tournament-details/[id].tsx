@@ -171,28 +171,28 @@ const TournamentDetails = () => {
                         <Text style={styles.errorText}>{error}</Text>
                     </View>
                 ) : (
-                    <ImageBackground
-                        style={styles.background}
-                        source={defaultImage}
-                        contentFit={"cover"}
-                        blurRadius={1}
-                    >
-                        <ScrollView contentContainerStyle={styles.content}>
-                            <TournamentDetailsHeader text={data?.name}/>
-                            <TournamentDetailsState state={tournamentState}/>
-                            <View style={styles.contentRow}>
-                                <TournamentDetailsDate date={data?.date}/>
-                                <TournamentDetailsLocation location={data?.location}/>
-                            </View>
-                            <TournamentDetailsParticipants count={participants?.length ?? 0}/>
-                            <TournamentDetailsContact/>
-                            {shouldShowJoinButton && (
-                                <ThemedButton title={"Join Tournament"} onPress={onJoinTournamentPress} />
-                            )}
-                            <TournamentDetailsCategories categories={categoriesWithCount}/>
-                            <TournamentDetailsDescription description={data?.description}/>
-                        </ScrollView>
-                    </ImageBackground>
+                    // <ImageBackground
+                    //     style={styles.background}
+                    //     source={defaultImage}
+                    //     contentFit={"cover"}
+                    //     blurRadius={1}
+                    // >
+                    // </ImageBackground>
+                    <ScrollView contentContainerStyle={styles.content}>
+                        <TournamentDetailsHeader text={data?.name}/>
+                        <TournamentDetailsState state={tournamentState}/>
+                        <View style={styles.contentRow}>
+                            <TournamentDetailsDate date={data?.date}/>
+                            <TournamentDetailsLocation location={data?.location}/>
+                        </View>
+                        <TournamentDetailsParticipants count={participants?.length ?? 0}/>
+                        {/*<TournamentDetailsContact/>*/}
+                        {shouldShowJoinButton && (
+                            <ThemedButton title={"Join Tournament"} onPress={onJoinTournamentPress} />
+                        )}
+                        <TournamentDetailsCategories categories={categoriesWithCount}/>
+                        <TournamentDetailsDescription description={data?.description}/>
+                    </ScrollView>
                 )}
             </ThemedView>
         </ThemedSafeAreaView>
